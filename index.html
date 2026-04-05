@@ -107,14 +107,14 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);paddin
 </style>
 </head>
 <body>
-<div class="hd"><h1>Portefolje-scorer</h1><div class="sub"><span id="stockCount">24</span> aksjer - Oslo Bors</div><div class="date">Oppdatert: 05.04.2026 18:35 - Kursmal: BorsXtra/XtraInvestor | Markedsdata: Yahoo Finance</div></div>
+<div class="hd"><h1>Portefolje-scorer</h1><div class="sub"><span id="stockCount">0</span> aksjer - Oslo Bors</div><div class="date">Oppdatert: 05.04.2026 18:47 - Kursmal: BorsXtra/XtraInvestor | Markedsdata: Yahoo Finance</div></div>
 
 <div class="tabs"><button class="active" data-tab="portfolio">Min Portefolje</button><button data-tab="favorites">Meglerhus-favoritter</button><button data-tab="osebx">Oslo Bors</button><button data-tab="news">Nyheter (48t)</button><button data-tab="insider">Innsidehandler (12mnd)</button></div>
 
 <div class="main-view" id="mainView">
 <div class="pie-wrap">
 <div class="pie-title">Sektorinndeling</div>
-<div class="pie-container"><div class="pie-chart"><canvas id="pieCanvas" width="500" height="500"></canvas><div class="pie-center"><div class="pc-num">16</div><div class="pc-lbl">Sektorer</div></div></div></div>
+<div class="pie-container"><div class="pie-chart"><canvas id="pieCanvas" width="500" height="500"></canvas><div class="pie-center"><div class="pc-num">0</div><div class="pc-lbl">Sektorer</div></div></div></div>
 </div>
 
 <div id="tp"></div>
@@ -802,8 +802,721 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);paddin
 <p class="disc">Ikke investeringsradgivning.</p>
 <script>
 /* ---- Data ---- */
-const SEC={"Finans": 3, "Tech": 5, "Offshore": 1, "Bygg": 1, "Material": 1, "Energi": 2, "Forbruk": 2, "Fornybar": 1, "Telekom": 1, "Helse": 1, "Forsikring": 1, "Shipping": 1, "Radgivning": 1, "Sjomat": 1, "Eiendom": 1, "Industri": 1};
-const OSEBX_SEC={"Finans": 25, "Material": 7, "Tech": 27, "Offshore": 17, "Industri": 18, "Shipping": 18, "Bygg": 7, "Forbruk": 8, "Energi": 15, "Fornybar": 17, "Sjomat": 10, "Telekom": 1, "Forsikring": 2, "Biotek": 12, "Transport": 1, "Eiendom": 4};
+const SEC={};
+const OSEBX_SEC={};
 const COLORS={"Energi":"#E85D3A","Finans":"#3B82F6","Forsikring":"#6366F1","Bygg":"#F59E0B","Tech":"#10B981","Sjomat":"#06B6D4","Telekom":"#8B5CF6","Forbruk":"#EC4899","Helse":"#EF4444","Material":"#78716C","Industri":"#64748B","Eiendom":"#D97706","Shipping":"#0EA5E9","Offshore":"#F97316","Radgivning":"#A855F7","Fornybar":"#22C55E"};
-const PORTFOLIO_DATA=[{"ticker": "B2I", "name": "B2 Impact", "sector": "Finans", "price": 23.75, "ma20": 23.92, "ma50": 22.92, "ma200": 18.35, "bbUpper": 25.83, "bbLower": 22.0, "bbPctB": 0.456, "atr": 0.82, "atrPct": 3.45, "rsi": 37.4, "macd": -0.01, "return3m": 23.8, "return12m": 161.8, "week52High": 25.6, "week52Low": 8.65, "volumeTrend": 296.5, "obvTrend": 1.447, "targetPrice": 26.0, "buyCount": 3, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 3, "recMean": null, "brokerTargets": [{"broker": "Arctic", "target": 27, "rec": "Kjøp", "date": "2026-03-02"}, {"broker": "ABG", "target": 26, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "DNB Carnegie", "target": 25, "rec": "Kjøp", "date": "2026-02-13"}], "pe": 10.2, "roe": 11.0, "debtEquity": 183.7, "profitMargin": 21.6, "operatingMargin": 30.3, "dividendYield": null, "revenueGrowth": 46.3, "earningsGrowth": 700.0, "currentRatio": 12.14, "fcfYield": null, "evEbitda": null, "fundScore": 7.3, "fundDetail": {"roe": 6, "pe": 6.0, "debt": 7.5, "opMargin": 9.5, "revGrowth": 9.5, "earnGrowth": 9}, "techScore": 8.1, "score": 7.7}, {"ticker": "STB", "name": "Storebrand", "sector": "Finans", "price": 175.4, "ma20": 172.2, "ma50": 173.78, "ma200": 159.93, "bbUpper": 177.64, "bbLower": 166.75, "bbPctB": 0.794, "atr": 3.78, "atrPct": 2.16, "rsi": 55.1, "macd": -0.66, "return3m": 2.0, "return12m": 37.3, "week52High": 182.6, "week52Low": 113.6, "volumeTrend": 9.1, "obvTrend": 1.016, "targetPrice": 190.0, "buyCount": 7, "sellCount": 1, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 8, "recMean": null, "brokerTargets": [{"broker": "DNB Carnegie", "target": 198, "rec": "Kjøp", "date": "2026-03-20"}, {"broker": "Pareto", "target": 200, "rec": "Kjøp", "date": "2026-02-12"}, {"broker": "Arctic", "target": 195, "rec": "Kjøp", "date": "2026-02-12"}, {"broker": "SEB", "target": 200, "rec": "Kjøp", "date": "2026-02-12"}, {"broker": "Danske Bank", "target": 200, "rec": "Kjøp", "date": "2026-02-12"}, {"broker": "ABG", "target": 195, "rec": "Kjøp", "date": "2026-02-02"}, {"broker": "Nordea", "target": 187, "rec": "Kjøp", "date": "2026-01-16"}, {"broker": "JP Morgan", "target": 145, "rec": "Selg", "date": "2026-01-14"}], "pe": 13.7, "roe": 15.3, "debtEquity": 202.2, "profitMargin": 8.5, "operatingMargin": 78.4, "dividendYield": null, "revenueGrowth": 35.0, "earningsGrowth": 16.0, "currentRatio": 0.41, "fcfYield": 29.25, "evEbitda": 2.8, "fundScore": 7.8, "fundDetail": {"roe": 7.5, "fcfYield": 9.5, "pe": 5.0, "evEbitda": 9.5, "debt": 5.5, "opMargin": 9.5, "revGrowth": 9.5, "earnGrowth": 7.5}, "techScore": 6.8, "score": 7.3}, {"ticker": "SMOP", "name": "Smartoptics", "sector": "Tech", "price": 44.4, "ma20": 40.05, "ma50": 35.36, "ma200": 25.78, "bbUpper": 45.17, "bbLower": 34.93, "bbPctB": 0.925, "atr": 2.36, "atrPct": 5.32, "rsi": 71.6, "macd": 2.15, "return3m": 45.1, "return12m": 108.0, "week52High": 44.4, "week52Low": 14.6, "volumeTrend": 16.6, "obvTrend": 0.995, "targetPrice": 40.0, "buyCount": 3, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 3, "recMean": null, "brokerTargets": [{"broker": "DNB Carnegie", "target": 50, "rec": "Kjøp", "date": "2026-02-23"}, {"broker": "ABG", "target": 40, "rec": "Kjøp", "date": "2026-01-27"}, {"broker": "Pareto", "target": 30, "rec": "Kjøp", "date": "2026-01-23"}], "pe": 30.5, "roe": 16.0, "debtEquity": 2.2, "profitMargin": 6.2, "operatingMargin": 11.8, "dividendYield": null, "revenueGrowth": 38.5, "earningsGrowth": 24.6, "currentRatio": 2.35, "fcfYield": 0.1, "evEbitda": null, "fundScore": 6.7, "fundDetail": {"roe": 7.5, "fcfYield": 3.5, "pe": 5.0, "debt": 9, "opMargin": 5.5, "revGrowth": 9.5, "earnGrowth": 7.5, "liquidity": 8}, "techScore": 7.9, "score": 7.3}, {"ticker": "DOFG", "name": "DOF Group", "sector": "Offshore", "price": 137.3, "ma20": 129.6, "ma50": 120.84, "ma200": 97.2, "bbUpper": 139.92, "bbLower": 119.29, "bbPctB": 0.873, "atr": 3.16, "atrPct": 2.3, "rsi": 74.4, "macd": 4.85, "return3m": 46.2, "return12m": 68.1, "week52High": 139.0, "week52Low": 66.95, "volumeTrend": -13.3, "obvTrend": 1.061, "targetPrice": 131.7, "buyCount": 6, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 9, "recMean": null, "brokerTargets": [{"broker": "Clarksons", "target": 125, "rec": "Hold", "date": "2026-03-16"}, {"broker": "Fearnley", "target": 145, "rec": "Kjøp", "date": "2026-02-26"}, {"broker": "SB1M", "target": 110, "rec": "Hold", "date": "2026-02-23"}, {"broker": "ABG", "target": 135, "rec": "Kjøp", "date": "2026-02-23"}, {"broker": "DNB Carnegie", "target": 130, "rec": "Kjøp", "date": "2026-02-23"}, {"broker": "Arctic", "target": 137, "rec": "Hold", "date": "2026-02-23"}, {"broker": "Danske Bank", "target": 135, "rec": "Kjøp", "date": "2026-02-20"}, {"broker": "Pareto", "target": 135, "rec": "Kjøp", "date": "2026-02-20"}, {"broker": "SEB", "target": 133, "rec": "Kjøp", "date": "2026-02-20"}], "pe": 8.1, "roe": 24.5, "debtEquity": 83.1, "profitMargin": 25.0, "operatingMargin": 24.8, "dividendYield": null, "revenueGrowth": 31.7, "earningsGrowth": 41.1, "currentRatio": 1.81, "fcfYield": 0.56, "evEbitda": 53.5, "fundScore": 6.4, "fundDetail": {"roe": 9, "fcfYield": 3.5, "pe": 7.5, "evEbitda": 2.0, "debt": 6, "opMargin": 8, "revGrowth": 9.5, "earnGrowth": 9, "liquidity": 8}, "techScore": 8.0, "score": 7.2}, {"ticker": "VEI", "name": "Veidekke", "sector": "Bygg", "price": 189.2, "ma20": 191.04, "ma50": 187.81, "ma200": 170.4, "bbUpper": 196.36, "bbLower": 185.72, "bbPctB": 0.327, "atr": 3.8, "atrPct": 2.01, "rsi": 44.4, "macd": -0.28, "return3m": 7.5, "return12m": 36.5, "week52High": 197.2, "week52Low": 131.03, "volumeTrend": 63.0, "obvTrend": 0.985, "targetPrice": 192.4, "buyCount": 1, "sellCount": 1, "signal": "Kjop", "analystSignal": "Hold", "analystCount": 5, "recMean": null, "brokerTargets": [{"broker": "SEB", "target": 202, "rec": "Hold", "date": "2026-03-05"}, {"broker": "DNB Carnegie", "target": 165, "rec": "Selg", "date": "2026-02-13"}, {"broker": "Handelsbanken", "target": 200, "rec": "Hold", "date": "2026-02-13"}, {"broker": "SB1M", "target": 210, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "ABG", "target": 185, "rec": "Hold", "date": "2026-01-28"}], "pe": 16.2, "roe": 45.7, "debtEquity": 7.3, "profitMargin": 3.6, "operatingMargin": 6.6, "dividendYield": null, "revenueGrowth": 5.5, "earningsGrowth": 48.1, "currentRatio": 0.84, "fcfYield": 12.73, "evEbitda": 8.3, "fundScore": 7.3, "fundDetail": {"roe": 9.5, "fcfYield": 9.5, "pe": 5.0, "evEbitda": 6.0, "debt": 9, "opMargin": 5.5, "revGrowth": 5.5, "earnGrowth": 9, "liquidity": 2.5}, "techScore": 7.2, "score": 7.2}, {"ticker": "YAR", "name": "Yara", "sector": "Material", "price": 561.0, "ma20": 532.13, "ma50": 487.09, "ma200": 406.77, "bbUpper": 588.21, "bbLower": 476.04, "bbPctB": 0.757, "atr": 18.08, "atrPct": 3.22, "rsi": 50.7, "macd": 19.57, "return3m": 35.5, "return12m": 80.0, "week52High": 567.0, "week52Low": 293.16, "volumeTrend": 58.3, "obvTrend": 1.054, "targetPrice": 461.0, "buyCount": 5, "sellCount": 4, "signal": "Kjop", "analystSignal": "Hold", "analystCount": 16, "recMean": null, "brokerTargets": [{"broker": "Deutsche Bank", "target": 566, "rec": "Hold", "date": "2026-03-28"}, {"broker": "JP Morgan", "target": 400, "rec": "Selg", "date": "2026-03-25"}, {"broker": "UBS", "target": 500, "rec": "Kjøp", "date": "2026-03-23"}, {"broker": "Jefferies", "target": 610, "rec": "Kjøp", "date": "2026-03-18"}, {"broker": "Danske Bank", "target": 550, "rec": "Kjøp", "date": "2026-03-09"}, {"broker": "BNP", "target": 290, "rec": "Selg", "date": "2026-02-23"}, {"broker": "Norne", "target": 500, "rec": "Hold", "date": "2026-02-20"}, {"broker": "Arctic", "target": 470, "rec": "Hold", "date": "2026-02-12"}, {"broker": "SEB", "target": 360, "rec": "Selg", "date": "2026-02-12"}, {"broker": "DNB Carnegie", "target": 500, "rec": "Kjøp", "date": "2026-02-12"}, {"broker": "Pareto", "target": 465, "rec": "Hold", "date": "2026-02-12"}, {"broker": "Nordea", "target": 385, "rec": "Selg", "date": "2026-02-12"}, {"broker": "ABG", "target": 485, "rec": "Kjøp", "date": "2026-02-02"}, {"broker": "SB1M", "target": 450, "rec": "Hold", "date": "2026-01-28"}, {"broker": "Morgan Stanley", "target": 415, "rec": "Hold", "date": "2026-01-22"}, {"broker": "Berenberg", "target": 430, "rec": "Hold", "date": "2026-01-05"}], "pe": 13.2, "roe": 17.4, "debtEquity": 47.9, "profitMargin": 8.8, "operatingMargin": 9.3, "dividendYield": null, "revenueGrowth": 16.1, "earningsGrowth": null, "currentRatio": 1.72, "fcfYield": 1.38, "evEbitda": 60.4, "fundScore": 5.9, "fundDetail": {"roe": 7.5, "fcfYield": 5, "pe": 6.0, "evEbitda": 2.0, "debt": 7.5, "opMargin": 5.5, "revGrowth": 8, "liquidity": 8}, "techScore": 8.6, "score": 7.2}, {"ticker": "VAR", "name": "Var Energi", "sector": "Energi", "price": 48.14, "ma20": 44.4, "ma50": 38.33, "ma200": 32.98, "bbUpper": 53.04, "bbLower": 35.75, "bbPctB": 0.717, "atr": 2.41, "atrPct": 5.01, "rsi": 67.5, "macd": 3.39, "return3m": 53.1, "return12m": 64.9, "week52High": 50.54, "week52Low": 23.49, "volumeTrend": 97.4, "obvTrend": 1.208, "targetPrice": 43.1, "buyCount": 7, "sellCount": 4, "signal": "Kjop", "analystSignal": "Hold", "analystCount": 15, "recMean": null, "brokerTargets": [{"broker": "SEB", "target": 37, "rec": "Selg", "date": "2026-04-01"}, {"broker": "SB1M", "target": 45, "rec": "Hold", "date": "2026-03-31"}, {"broker": "Norne", "target": 70, "rec": "Kjøp", "date": "2026-03-31"}, {"broker": "Pareto", "target": 55, "rec": "Kjøp", "date": "2026-03-27"}, {"broker": "Goldman Sachs", "target": 57, "rec": "Kjøp", "date": "2026-03-20"}, {"broker": "Arctic", "target": 40, "rec": "Hold", "date": "2026-03-17"}, {"broker": "Barclays", "target": 50, "rec": "Kjøp", "date": "2026-03-17"}, {"broker": "DNB Carnegie", "target": 32, "rec": "Selg", "date": "2026-03-16"}, {"broker": "Fearnley", "target": 41, "rec": "Hold", "date": "2026-03-16"}, {"broker": "ABG", "target": 33, "rec": "Selg", "date": "2026-03-05"}, {"broker": "JP Morgan", "target": 44, "rec": "Kjøp", "date": "2026-03-05"}, {"broker": "Bank of America", "target": 32, "rec": "Hold", "date": "2026-02-20"}, {"broker": "Danske Bank", "target": 30, "rec": "Selg", "date": "2026-02-16"}, {"broker": "Nordea", "target": 38, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Citigroup", "target": 42, "rec": "Kjøp", "date": "2026-01-28"}], "pe": 13.6, "roe": 121.6, "debtEquity": 1105.3, "profitMargin": 10.6, "operatingMargin": 45.3, "dividendYield": null, "revenueGrowth": 31.8, "earningsGrowth": null, "currentRatio": 0.61, "fcfYield": 2.38, "evEbitda": 19.4, "fundScore": 5.7, "fundDetail": {"roe": 9.5, "fcfYield": 5, "pe": 5.0, "evEbitda": 2.0, "debt": 1.5, "opMargin": 9.5, "revGrowth": 9.5, "liquidity": 2.5}, "techScore": 8.5, "score": 7.1}, {"ticker": "SATS", "name": "Sats", "sector": "Forbruk", "price": 43.6, "ma20": 43.06, "ma50": 41.76, "ma200": 38.44, "bbUpper": 44.47, "bbLower": 41.64, "bbPctB": 0.692, "atr": 1.13, "atrPct": 2.59, "rsi": 55.0, "macd": 0.19, "return3m": 14.0, "return12m": 34.9, "week52High": 44.25, "week52Low": 31.94, "volumeTrend": 11.7, "obvTrend": 0.913, "targetPrice": 50.2, "buyCount": 6, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 6, "recMean": null, "brokerTargets": [{"broker": "Nordea", "target": 49, "rec": "Kjøp", "date": "2026-03-24"}, {"broker": "SEB", "target": 52, "rec": "Kjøp", "date": "2026-02-24"}, {"broker": "DNB Carnegie", "target": 47, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "SB1M", "target": 50, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Danske Bank", "target": 55, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Pareto", "target": 48, "rec": "Kjøp", "date": "2026-01-27"}], "pe": 11.7, "roe": 33.9, "debtEquity": 458.4, "profitMargin": 8.6, "operatingMargin": 16.0, "dividendYield": null, "revenueGrowth": 9.0, "earningsGrowth": 62.2, "currentRatio": 0.44, "fcfYield": 16.36, "evEbitda": 14.0, "fundScore": 6.8, "fundDetail": {"roe": 9.5, "fcfYield": 9.5, "pe": 7.5, "evEbitda": 3.0, "debt": 1.5, "opMargin": 7, "revGrowth": 7, "earnGrowth": 9, "liquidity": 2.5}, "techScore": 7.4, "score": 7.1}, {"ticker": "SB1NO", "name": "SpareBank 1 SN", "sector": "Finans", "price": 210.5, "ma20": 205.28, "ma50": 203.55, "ma200": 186.92, "bbUpper": 211.39, "bbLower": 199.16, "bbPctB": 0.927, "atr": 5.26, "atrPct": 2.5, "rsi": 57.7, "macd": 0.78, "return3m": 8.4, "return12m": 31.1, "week52High": 213.0, "week52Low": 142.93, "volumeTrend": 59.4, "obvTrend": 1.0, "targetPrice": 205.0, "buyCount": 1, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 1, "recMean": null, "brokerTargets": [{"broker": "DNB Carnegie", "target": 205, "rec": "Kjøp", "date": "2026-01-08"}], "pe": 11.2, "roe": 12.4, "debtEquity": null, "profitMargin": 48.9, "operatingMargin": 64.2, "dividendYield": null, "revenueGrowth": 6.6, "earningsGrowth": 16.7, "currentRatio": null, "fcfYield": null, "evEbitda": null, "fundScore": 6.8, "fundDetail": {"roe": 6, "pe": 6.0, "opMargin": 9.5, "revGrowth": 5.5, "earnGrowth": 7.5}, "techScore": 7.2, "score": 7.0}, {"ticker": "IWS", "name": "IWS", "sector": "Fornybar", "price": 58.3, "ma20": 60.01, "ma50": 55.68, "ma200": 46.27, "bbUpper": 63.26, "bbLower": 56.76, "bbPctB": 0.237, "atr": 1.75, "atrPct": 3.0, "rsi": 31.8, "macd": 0.81, "return3m": 18.7, "return12m": 50.2, "week52High": 63.7, "week52Low": 36.71, "volumeTrend": -65.6, "obvTrend": 0.997, "targetPrice": 70.0, "buyCount": 1, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 1, "recMean": null, "brokerTargets": [{"broker": "SEB", "target": 70, "rec": "Kjøp", "date": "2026-02-26"}], "pe": 9.1, "roe": 10.7, "debtEquity": 85.7, "profitMargin": 15.6, "operatingMargin": 27.8, "dividendYield": null, "revenueGrowth": 43.8, "earningsGrowth": 139.5, "currentRatio": 1.68, "fcfYield": -5.56, "evEbitda": 84.7, "fundScore": 6.3, "fundDetail": {"roe": 6, "fcfYield": 2, "pe": 9.5, "evEbitda": 2.0, "debt": 6, "opMargin": 8, "revGrowth": 9.5, "earnGrowth": 9, "liquidity": 8}, "techScore": 7.8, "score": 7.0}, {"ticker": "TEL", "name": "Telenor", "sector": "Telekom", "price": 170.3, "ma20": 169.16, "ma50": 169.02, "ma200": 157.71, "bbUpper": 173.65, "bbLower": 164.67, "bbPctB": 0.627, "atr": 3.14, "atrPct": 1.84, "rsi": 47.5, "macd": -0.22, "return3m": 17.9, "return12m": 20.1, "week52High": 177.1, "week52Low": 129.75, "volumeTrend": -6.8, "obvTrend": 1.019, "targetPrice": 185.0, "buyCount": 7, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 11, "recMean": null, "brokerTargets": [{"broker": "Nordea", "target": 186, "rec": "Kjøp", "date": "2026-04-01"}, {"broker": "Barclays", "target": 168, "rec": "Hold", "date": "2026-03-31"}, {"broker": "JP Morgan", "target": 170, "rec": "Hold", "date": "2026-03-27"}, {"broker": "Morgan Stanley", "target": 175, "rec": "Hold", "date": "2026-03-10"}, {"broker": "Goldman Sachs", "target": 220, "rec": "Kjøp", "date": "2026-03-09"}, {"broker": "SB1M", "target": 175, "rec": "Hold", "date": "2026-02-24"}, {"broker": "BNP", "target": 185, "rec": "Kjøp", "date": "2026-02-10"}, {"broker": "Handelsbanken", "target": 191, "rec": "Kjøp", "date": "2026-02-09"}, {"broker": "Pareto", "target": 195, "rec": "Kjøp", "date": "2026-02-09"}, {"broker": "DNB Carnegie", "target": 190, "rec": "Kjøp", "date": "2026-01-28"}, {"broker": "Citigroup", "target": 180, "rec": "Kjøp", "date": "2026-01-14"}], "pe": 16.5, "roe": 15.6, "debtEquity": 134.7, "profitMargin": 9.2, "operatingMargin": 22.2, "dividendYield": null, "revenueGrowth": 1.0, "earningsGrowth": null, "currentRatio": 0.69, "fcfYield": 6.32, "evEbitda": 12.0, "fundScore": 6.0, "fundDetail": {"roe": 7.5, "fcfYield": 7.5, "pe": 6.0, "evEbitda": 3.0, "debt": 4.5, "opMargin": 8, "revGrowth": 4.5, "liquidity": 2.5}, "techScore": 7.0, "score": 6.5}, {"ticker": "MEDI", "name": "Medistim", "sector": "Helse", "price": 214.0, "ma20": 210.6, "ma50": 215.04, "ma200": 234.37, "bbUpper": 218.92, "bbLower": 202.28, "bbPctB": 0.704, "atr": 6.43, "atrPct": 3.0, "rsi": 65.7, "macd": -1.52, "return3m": -16.4, "return12m": 27.5, "week52High": 284.0, "week52Low": 153.34, "volumeTrend": 31.3, "obvTrend": 1.255, "targetPrice": 310.0, "buyCount": 1, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 1, "recMean": null, "brokerTargets": [{"broker": "Danske Bank", "target": 310, "rec": "Kjøp", "date": "2026-02-11"}], "pe": 22.6, "roe": 35.2, "debtEquity": 8.0, "profitMargin": 22.8, "operatingMargin": 23.2, "dividendYield": null, "revenueGrowth": 26.0, "earningsGrowth": 79.8, "currentRatio": 3.34, "fcfYield": 4.3, "evEbitda": 17.8, "fundScore": 7.9, "fundDetail": {"roe": 9.5, "fcfYield": 6.5, "pe": 7.5, "evEbitda": 4.5, "debt": 9, "opMargin": 8, "revGrowth": 9.5, "earnGrowth": 9, "liquidity": 6}, "techScore": 5.1, "score": 6.5}, {"ticker": "PROT", "name": "Protector", "sector": "Forsikring", "price": 466.0, "ma20": 496.7, "ma50": 507.1, "ma200": 485.43, "bbUpper": 547.02, "bbLower": 446.38, "bbPctB": 0.195, "atr": 16.82, "atrPct": 3.61, "rsi": 31.9, "macd": -12.61, "return3m": -7.9, "return12m": 41.6, "week52High": 549.74, "week52Low": 300.38, "volumeTrend": 256.6, "obvTrend": 1.109, "targetPrice": 585.0, "buyCount": 3, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 4, "recMean": null, "brokerTargets": [{"broker": "SEB", "target": 540, "rec": "Hold", "date": "2026-02-04"}, {"broker": "DNB Carnegie", "target": 600, "rec": "Kjøp", "date": "2026-01-30"}, {"broker": "Pareto", "target": 580, "rec": "Kjøp", "date": "2026-01-30"}, {"broker": "Nordea", "target": 620, "rec": "Kjøp", "date": "2026-01-30"}], "pe": 16.5, "roe": 39.3, "debtEquity": 30.5, "profitMargin": 18.1, "operatingMargin": 29.0, "dividendYield": null, "revenueGrowth": 30.4, "earningsGrowth": 179.4, "currentRatio": 1.72, "fcfYield": -60.99, "evEbitda": 3.9, "fundScore": 6.8, "fundDetail": {"roe": 9.5, "fcfYield": 2, "pe": 3.5, "evEbitda": 9.5, "debt": 7.5, "opMargin": 8, "revGrowth": 9.5, "earnGrowth": 9}, "techScore": 5.9, "score": 6.4}, {"ticker": "PEXIP", "name": "Pexip", "sector": "Tech", "price": 61.4, "ma20": 62.67, "ma50": 66.47, "ma200": 64.53, "bbUpper": 65.29, "bbLower": 60.04, "bbPctB": 0.259, "atr": 1.61, "atrPct": 2.62, "rsi": 32.5, "macd": -1.21, "return3m": -16.1, "return12m": 67.5, "week52High": 78.8, "week52Low": 34.07, "volumeTrend": 43.8, "obvTrend": 1.112, "targetPrice": 78.8, "buyCount": 4, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 4, "recMean": null, "brokerTargets": [{"broker": "DNB Carnegie", "target": 70, "rec": "Kjøp", "date": "2026-02-20"}, {"broker": "Pareto", "target": 80, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "SEB", "target": 80, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "SB1M", "target": 85, "rec": "Kjøp", "date": "2026-01-28"}], "pe": 18.8, "roe": 13.3, "debtEquity": 3.3, "profitMargin": 16.9, "operatingMargin": 25.8, "dividendYield": null, "revenueGrowth": 0.3, "earningsGrowth": 22.0, "currentRatio": 1.64, "fcfYield": 4.43, "evEbitda": 20.8, "fundScore": 6.6, "fundDetail": {"roe": 6, "fcfYield": 6.5, "pe": 7.5, "evEbitda": 4.5, "debt": 9, "opMargin": 8, "revGrowth": 4.5, "earnGrowth": 7.5, "liquidity": 8}, "techScore": 6.0, "score": 6.3}, {"ticker": "APR", "name": "Appear", "sector": "Tech", "price": 61.2, "ma20": 61.45, "ma50": 66.41, "ma200": null, "bbUpper": 64.79, "bbLower": 58.11, "bbPctB": 0.463, "atr": 2.06, "atrPct": 3.37, "rsi": 39.3, "macd": -1.87, "return3m": -23.5, "return12m": null, "week52High": 88.21, "week52Low": 59.09, "volumeTrend": -38.3, "obvTrend": 2.198, "targetPrice": 90.0, "buyCount": 0, "sellCount": 0, "signal": "Hold", "analystSignal": "-", "analystCount": 1, "recMean": null, "brokerTargets": [], "pe": 9.6, "roe": 30.1, "debtEquity": 10.5, "profitMargin": 16.1, "operatingMargin": 7.5, "dividendYield": null, "revenueGrowth": 20.8, "earningsGrowth": 47.2, "currentRatio": 3.58, "fcfYield": 1.83, "evEbitda": 11.4, "fundScore": 7.8, "fundDetail": {"roe": 9.5, "fcfYield": 5, "pe": 9.5, "evEbitda": 7.5, "debt": 9, "opMargin": 5.5, "revGrowth": 8, "earnGrowth": 9, "liquidity": 6}, "techScore": 4.6, "score": 6.2}, {"ticker": "TGS", "name": "TGS", "sector": "Energi", "price": 127.0, "ma20": 120.32, "ma50": 111.46, "ma200": 88.41, "bbUpper": 135.21, "bbLower": 105.44, "bbPctB": 0.724, "atr": 4.13, "atrPct": 3.25, "rsi": 70.8, "macd": 5.55, "return3m": 47.3, "return12m": 37.5, "week52High": 132.5, "week52Low": 67.92, "volumeTrend": 40.9, "obvTrend": 1.181, "targetPrice": 99.2, "buyCount": 1, "sellCount": 3, "signal": "Kjop", "analystSignal": "Salg", "analystCount": 6, "recMean": null, "brokerTargets": [{"broker": "ABG", "target": 150, "rec": "Kjøp", "date": "2026-03-09"}, {"broker": "Pareto", "target": 110, "rec": "Hold", "date": "2026-02-17"}, {"broker": "SB1M", "target": 70, "rec": "Selg", "date": "2026-02-16"}, {"broker": "DNB Carnegie", "target": 80, "rec": "Selg", "date": "2026-02-13"}, {"broker": "Fearnley", "target": 115, "rec": "Hold", "date": "2026-02-13"}, {"broker": "Danske Bank", "target": 70, "rec": "Selg", "date": "2026-02-05"}], "pe": 26.1, "roe": 0.9, "debtEquity": 43.2, "profitMargin": 1.2, "operatingMargin": 15.7, "dividendYield": null, "revenueGrowth": -44.5, "earningsGrowth": -84.8, "currentRatio": 0.64, "fcfYield": 1.44, "evEbitda": 34.6, "fundScore": 4.0, "fundDetail": {"roe": 3, "fcfYield": 5, "pe": 2.0, "evEbitda": 2.0, "debt": 7.5, "opMargin": 7, "revGrowth": 2.5, "earnGrowth": 2.5, "liquidity": 2.5}, "techScore": 8.5, "score": 6.2}, {"ticker": "KCC", "name": "Klaveness CC", "sector": "Shipping", "price": 94.9, "ma20": 90.38, "ma50": 89.35, "ma200": 77.73, "bbUpper": 95.2, "bbLower": 85.56, "bbPctB": 0.969, "atr": 2.96, "atrPct": 3.12, "rsi": 69.0, "macd": 1.11, "return3m": 18.1, "return12m": 55.9, "week52High": 94.9, "week52Low": 55.31, "volumeTrend": -12.3, "obvTrend": 0.862, "targetPrice": 97.2, "buyCount": 4, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 5, "recMean": null, "brokerTargets": [{"broker": "Pareto", "target": 100, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "DNB Carnegie", "target": 103, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "SEB", "target": 97, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "Clarksons", "target": 87, "rec": "Hold", "date": "2026-02-16"}, {"broker": "ABG", "target": 99, "rec": "Kjøp", "date": "2026-02-16"}], "pe": 8.7, "roe": 9.2, "debtEquity": 73.5, "profitMargin": 14.0, "operatingMargin": 21.3, "dividendYield": null, "revenueGrowth": 8.8, "earningsGrowth": 19.9, "currentRatio": 1.78, "fcfYield": -0.5, "evEbitda": 73.3, "fundScore": 5.1, "fundDetail": {"roe": 4.5, "fcfYield": 2, "pe": 7.5, "evEbitda": 2.0, "debt": 6, "opMargin": 8, "revGrowth": 7, "earnGrowth": 7.5, "liquidity": 8}, "techScore": 7.3, "score": 6.2}, {"ticker": "EPR", "name": "Europris", "sector": "Forbruk", "price": 94.0, "ma20": 89.48, "ma50": 89.0, "ma200": 92.89, "bbUpper": 92.65, "bbLower": 86.31, "bbPctB": 1.212, "atr": 2.12, "atrPct": 2.26, "rsi": 61.9, "macd": 0.36, "return3m": 0.8, "return12m": 17.2, "week52High": 103.4, "week52Low": 70.44, "volumeTrend": -15.6, "obvTrend": 1.037, "targetPrice": 102.5, "buyCount": 3, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 4, "recMean": null, "brokerTargets": [{"broker": "SB1M", "target": 105, "rec": "Kjøp", "date": "2026-01-30"}, {"broker": "Pareto", "target": 104, "rec": "Kjøp", "date": "2026-01-30"}, {"broker": "SEB", "target": 106, "rec": "Kjøp", "date": "2026-01-30"}, {"broker": "DNB Carnegie", "target": 95, "rec": "Hold", "date": "2026-01-30"}], "pe": 12.7, "roe": 19.1, "debtEquity": 121.2, "profitMargin": 5.4, "operatingMargin": 14.7, "dividendYield": null, "revenueGrowth": 5.3, "earningsGrowth": 2.6, "currentRatio": 1.17, "fcfYield": 8.15, "evEbitda": 13.7, "fundScore": 6.6, "fundDetail": {"roe": 7.5, "fcfYield": 8.5, "pe": 7.5, "evEbitda": 4.5, "debt": 4.5, "opMargin": 7, "revGrowth": 5.5, "earnGrowth": 5, "liquidity": 5}, "techScore": 5.6, "score": 6.1}, {"ticker": "GENO", "name": "General Oceans", "sector": "Tech", "price": 24.88, "ma20": null, "ma50": null, "ma200": null, "bbUpper": null, "bbLower": null, "bbPctB": null, "atr": null, "atrPct": null, "rsi": null, "macd": null, "return3m": null, "return12m": null, "week52High": 25.4, "week52Low": 23.7, "volumeTrend": 0, "obvTrend": null, "targetPrice": null, "buyCount": 0, "sellCount": 0, "signal": "Hold", "analystSignal": "-", "analystCount": 0, "recMean": null, "brokerTargets": [], "pe": 28.9, "roe": 5.8, "debtEquity": null, "profitMargin": 4.1, "operatingMargin": 7.0, "dividendYield": null, "revenueGrowth": null, "earningsGrowth": null, "currentRatio": 1.66, "fcfYield": 2.62, "evEbitda": null, "fundScore": 5.1, "fundDetail": {"roe": 4.5, "fcfYield": 5, "pe": 5.0, "opMargin": 5.5, "liquidity": 8}, "techScore": 6.6, "score": 5.8}, {"ticker": "NORCO", "name": "Norconsult", "sector": "Radgivning", "price": 41.7, "ma20": 39.99, "ma50": 41.52, "ma200": 44.41, "bbUpper": 41.45, "bbLower": 38.52, "bbPctB": 1.086, "atr": 0.97, "atrPct": 2.33, "rsi": 65.0, "macd": -0.11, "return3m": -5.2, "return12m": -2.0, "week52High": 49.25, "week52Low": 38.75, "volumeTrend": -16.9, "obvTrend": 1.053, "targetPrice": 53.0, "buyCount": 4, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 4, "recMean": null, "brokerTargets": [{"broker": "SB1M", "target": 52, "rec": "Kjøp", "date": "2026-02-18"}, {"broker": "Handelsbanken", "target": 60, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "SEB", "target": 50, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "DNB Carnegie", "target": 50, "rec": "Kjøp", "date": "2026-01-20"}], "pe": 13.9, "roe": 23.1, "debtEquity": 95.4, "profitMargin": 5.7, "operatingMargin": 6.5, "dividendYield": null, "revenueGrowth": 11.6, "earningsGrowth": -29.7, "currentRatio": 1.15, "fcfYield": 7.18, "evEbitda": 14.5, "fundScore": 6.7, "fundDetail": {"roe": 9, "fcfYield": 8.5, "pe": 7.5, "evEbitda": 3.0, "debt": 6, "opMargin": 5.5, "revGrowth": 7, "earnGrowth": 2.5, "liquidity": 5}, "techScore": 4.6, "score": 5.6}, {"ticker": "SALM", "name": "SalMar", "sector": "Sjomat", "price": 578.0, "ma20": 565.22, "ma50": 569.51, "ma200": 539.61, "bbUpper": 598.85, "bbLower": 531.6, "bbPctB": 0.69, "atr": 16.04, "atrPct": 2.78, "rsi": 48.9, "macd": -3.02, "return3m": -3.6, "return12m": 20.6, "week52High": 622.0, "week52Low": 411.6, "volumeTrend": -13.8, "obvTrend": 1.035, "targetPrice": 623.8, "buyCount": 8, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 12, "recMean": null, "brokerTargets": [{"broker": "Berenberg", "target": 600, "rec": "Hold", "date": "2026-03-25"}, {"broker": "DNB Carnegie", "target": 630, "rec": "Kjøp", "date": "2026-03-18"}, {"broker": "Norne", "target": 600, "rec": "Hold", "date": "2026-03-03"}, {"broker": "SB1M", "target": 635, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "Fearnley", "target": 668, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Arctic", "target": 645, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "ABG", "target": 658, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Pareto", "target": 600, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Handelsbanken", "target": 600, "rec": "Hold", "date": "2026-02-11"}, {"broker": "Nordea", "target": 550, "rec": "Hold", "date": "2026-02-03"}, {"broker": "Danske Bank", "target": 655, "rec": "Kjøp", "date": "2026-01-30"}, {"broker": "SEB", "target": 645, "rec": "Kjøp", "date": "2026-01-19"}], "pe": 13.8, "roe": 5.6, "debtEquity": 116.3, "profitMargin": 4.0, "operatingMargin": 23.0, "dividendYield": null, "revenueGrowth": 5.2, "earningsGrowth": -6.7, "currentRatio": 2.05, "fcfYield": -1.56, "evEbitda": 21.2, "fundScore": 4.4, "fundDetail": {"roe": 4.5, "fcfYield": 2, "pe": 6.0, "evEbitda": 2.0, "debt": 4.5, "opMargin": 8, "revGrowth": 5.5, "earnGrowth": 2.5, "liquidity": 8}, "techScore": 6.3, "score": 5.4}, {"ticker": "LINK", "name": "LINK Mobility", "sector": "Tech", "price": 22.5, "ma20": 21.72, "ma50": 24.08, "ma200": 29.3, "bbUpper": 22.93, "bbLower": 20.51, "bbPctB": 0.821, "atr": 0.73, "atrPct": 3.24, "rsi": 50.5, "macd": -0.53, "return3m": -33.0, "return12m": 3.2, "week52High": 35.65, "week52Low": 20.1, "volumeTrend": 0.2, "obvTrend": 1.166, "targetPrice": 29.2, "buyCount": 4, "sellCount": 0, "signal": "Hold", "analystSignal": "Kjop", "analystCount": 6, "recMean": null, "brokerTargets": [{"broker": "Pareto", "target": 30, "rec": "Kjøp", "date": "2026-02-17"}, {"broker": "SB1M", "target": 30, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "DNB Carnegie", "target": 21, "rec": "Hold", "date": "2026-02-13"}, {"broker": "Handelsbanken", "target": 25, "rec": "Hold", "date": "2026-02-13"}, {"broker": "Danske Bank", "target": 34, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "Arctic", "target": 35, "rec": "Kjøp", "date": "2026-02-04"}], "pe": 12.4, "roe": 1.6, "debtEquity": 46.5, "profitMargin": 1.2, "operatingMargin": 5.0, "dividendYield": null, "revenueGrowth": 7.1, "earningsGrowth": null, "currentRatio": 1.27, "fcfYield": 13.65, "evEbitda": 10.5, "fundScore": 6.6, "fundDetail": {"roe": 3, "fcfYield": 9.5, "pe": 9.5, "evEbitda": 7.5, "debt": 7.5, "opMargin": 4, "revGrowth": 5.5, "liquidity": 6.5}, "techScore": 4.2, "score": 5.4}, {"ticker": "SBO", "name": "Selvaag Bolig", "sector": "Eiendom", "price": 34.25, "ma20": 34.16, "ma50": 34.53, "ma200": 35.11, "bbUpper": 36.08, "bbLower": 32.24, "bbPctB": 0.523, "atr": 0.85, "atrPct": 2.48, "rsi": 43.2, "macd": -0.45, "return3m": -7.8, "return12m": -1.3, "week52High": 37.75, "week52Low": 32.65, "volumeTrend": -50.6, "obvTrend": 0.928, "targetPrice": 41.0, "buyCount": 0, "sellCount": 0, "signal": "Hold", "analystSignal": "-", "analystCount": 1, "recMean": null, "brokerTargets": [], "pe": 10.6, "roe": 5.5, "debtEquity": 127.2, "profitMargin": 6.4, "operatingMargin": 6.5, "dividendYield": null, "revenueGrowth": 121.5, "earningsGrowth": 174.0, "currentRatio": 1.98, "fcfYield": -43.57, "evEbitda": 94.4, "fundScore": 5.2, "fundDetail": {"roe": 4.5, "fcfYield": 2, "pe": 7.5, "evEbitda": 2.0, "debt": 6.5, "opMargin": 5.5, "revGrowth": 9.5, "earnGrowth": 9, "liquidity": 8}, "techScore": 4.7, "score": 5.0}, {"ticker": "TOM", "name": "Tomra", "sector": "Industri", "price": 116.4, "ma20": 113.47, "ma50": 119.72, "ma200": 136.17, "bbUpper": 117.55, "bbLower": 109.38, "bbPctB": 0.859, "atr": 3.85, "atrPct": 3.31, "rsi": 56.8, "macd": -1.44, "return3m": -13.3, "return12m": -20.9, "week52High": 169.4, "week52Low": 110.0, "volumeTrend": 49.5, "obvTrend": 0.521, "targetPrice": 152.0, "buyCount": 6, "sellCount": 1, "signal": "Salg", "analystSignal": "Kjop", "analystCount": 7, "recMean": null, "brokerTargets": [{"broker": "Barclays", "target": 150, "rec": "Kjøp", "date": "2026-03-27"}, {"broker": "Fearnley", "target": 144, "rec": "Kjøp", "date": "2026-03-16"}, {"broker": "Arctic", "target": 150, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "DNB Carnegie", "target": 110, "rec": "Selg", "date": "2026-02-16"}, {"broker": "Pareto", "target": 199, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "Nordea", "target": 151, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "Stifel", "target": 160, "rec": "Kjøp", "date": "2026-01-15"}], "pe": 15.8, "roe": 15.7, "debtEquity": 112.0, "profitMargin": 7.1, "operatingMargin": 17.0, "dividendYield": null, "revenueGrowth": -4.1, "earningsGrowth": -16.2, "currentRatio": 1.64, "fcfYield": -0.06, "evEbitda": null, "fundScore": 5.4, "fundDetail": {"roe": 7.5, "fcfYield": 2, "pe": 7.5, "debt": 4.5, "opMargin": 7, "revGrowth": 2.5, "earnGrowth": 2.5, "liquidity": 8}, "techScore": 3.6, "score": 4.5}];
-const OSEBX_DATA=[{"ticker": "B2I", "name": "B2 Impact", "sector": "Finans", "price": 23.75, "ma20": 23.92, "ma50": 22.92, "ma200": 18.35, "bbUpper": 25.83, "bbLower": 22.0, "bbPctB": 0.456, "atr": 0.82, "atrPct": 3.45, "rsi": 37.4, "macd": -0.01, "return3m": 23.8, "return12m": 161.8, "week52High": 25.6, "week52Low": 8.65, "volumeTrend": 296.5, "obvTrend": 1.447, "targetPrice": 26.0, "buyCount": 3, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 3, "recMean": null, "brokerTargets": [{"broker": "Arctic", "target": 27, "rec": "Kjøp", "date": "2026-03-02"}, {"broker": "ABG", "target": 26, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "DNB Carnegie", "target": 25, "rec": "Kjøp", "date": "2026-02-13"}], "pe": 10.2, "roe": 11.0, "debtEquity": 183.7, "profitMargin": 21.6, "operatingMargin": 30.3, "dividendYield": null, "revenueGrowth": 46.3, "earningsGrowth": 700.0, "currentRatio": 12.14, "fcfYield": null, "evEbitda": null, "fundScore": 7.3, "fundDetail": {"roe": 6, "pe": 6.0, "debt": 7.5, "opMargin": 9.5, "revGrowth": 9.5, "earnGrowth": 9}, "techScore": 8.1, "score": 7.7}, {"ticker": "NHY", "name": "Norsk Hydro", "sector": "Material", "price": 102.6, "ma20": 92.56, "ma50": 89.39, "ma200": 73.74, "bbUpper": 102.77, "bbLower": 82.35, "bbPctB": 0.991, "atr": 3.69, "atrPct": 3.6, "rsi": 60.2, "macd": 2.81, "return3m": 25.8, "return12m": 77.1, "week52High": 102.6, "week52Low": 49.8, "volumeTrend": 32.4, "obvTrend": 1.354, "targetPrice": 87.3, "buyCount": 7, "sellCount": 7, "signal": "Kjop", "analystSignal": "Hold", "analystCount": 19, "recMean": null, "brokerTargets": [{"broker": "RBC", "target": 95, "rec": "Kjøp", "date": "2026-03-20"}, {"broker": "UBS", "target": 110, "rec": "Kjøp", "date": "2026-03-10"}, {"broker": "JP Morgan", "target": 103, "rec": "Kjøp", "date": "2026-03-09"}, {"broker": "Danske Bank", "target": 95, "rec": "Hold", "date": "2026-03-09"}, {"broker": "DNB Carnegie", "target": 95, "rec": "Hold", "date": "2026-03-06"}, {"broker": "Morgan Stanley", "target": 87, "rec": "Kjøp", "date": "2026-02-24"}, {"broker": "Citi", "target": 105, "rec": "Kjøp", "date": "2026-02-23"}, {"broker": "SEB", "target": 75, "rec": "Selg", "date": "2026-02-17"}, {"broker": "BNP", "target": 97, "rec": "Kjøp", "date": "2026-02-17"}, {"broker": "Handelsbanken", "target": 90, "rec": "Hold", "date": "2026-02-16"}, {"broker": "Goldman Sachs", "target": 69, "rec": "Selg", "date": "2026-02-16"}, {"broker": "Pareto", "target": 90, "rec": "Hold", "date": "2026-02-16"}, {"broker": "Arctic", "target": 72, "rec": "Selg", "date": "2026-02-16"}, {"broker": "SB1M", "target": 75, "rec": "Selg", "date": "2026-02-16"}, {"broker": "Kepler", "target": 73, "rec": "Selg", "date": "2026-02-16"}, {"broker": "Norne", "target": 84, "rec": "Selg", "date": "2026-02-03"}, {"broker": "ABG", "target": 75, "rec": "Selg", "date": "2026-01-15"}, {"broker": "Deutsche Bank", "target": 88, "rec": "Kjøp", "date": "2026-01-08"}, {"broker": "Barclays", "target": 80, "rec": "Hold", "date": "2026-01-08"}], "pe": 13.2, "roe": 7.7, "debtEquity": 34.2, "profitMargin": 3.2, "operatingMargin": 13.1, "dividendYield": null, "revenueGrowth": -14.2, "earningsGrowth": null, "currentRatio": 1.73, "fcfYield": 12.8, "evEbitda": 4.3, "fundScore": 6.8, "fundDetail": {"roe": 4.5, "fcfYield": 9.5, "pe": 6.0, "evEbitda": 8.5, "debt": 7.5, "opMargin": 7, "revGrowth": 2.5, "liquidity": 8}, "techScore": 8.3, "score": 7.6}, {"ticker": "ZAL", "name": "Zalaris", "sector": "Tech", "price": 98.0, "ma20": 90.7, "ma50": 85.44, "ma200": 83.06, "bbUpper": 113.6, "bbLower": 67.8, "bbPctB": 0.659, "atr": 2.13, "atrPct": 2.17, "rsi": 97.2, "macd": 4.72, "return3m": 11.4, "return12m": 18.0, "week52High": 98.2, "week52Low": 71.4, "volumeTrend": 483.2, "obvTrend": 1.223, "targetPrice": 100.0, "buyCount": 1, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 1, "recMean": null, "brokerTargets": [{"broker": "Arctic", "target": 100, "rec": "Kjøp", "date": "2026-02-23"}], "pe": 13.3, "roe": 22.6, "debtEquity": 175.6, "profitMargin": 4.0, "operatingMargin": 10.3, "dividendYield": null, "revenueGrowth": 8.7, "earningsGrowth": null, "currentRatio": 1.59, "fcfYield": 8.69, "evEbitda": 12.2, "fundScore": 7.3, "fundDetail": {"roe": 9, "fcfYield": 8.5, "pe": 8.5, "evEbitda": 7.5, "debt": 3, "opMargin": 5.5, "revGrowth": 7, "liquidity": 8}, "techScore": 7.8, "score": 7.6}, {"ticker": "AKSO", "name": "Aker Solutions", "sector": "Offshore", "price": 45.32, "ma20": 42.88, "ma50": 39.62, "ma200": 33.1, "bbUpper": 46.85, "bbLower": 38.92, "bbPctB": 0.807, "atr": 1.44, "atrPct": 3.18, "rsi": 70.2, "macd": 1.75, "return3m": 46.7, "return12m": 50.6, "week52High": 46.34, "week52Low": 24.89, "volumeTrend": 27.5, "obvTrend": 1.262, "targetPrice": 38.4, "buyCount": 2, "sellCount": 3, "signal": "Kjop", "analystSignal": "Hold", "analystCount": 8, "recMean": null, "brokerTargets": [{"broker": "Arctic", "target": 38, "rec": "Hold", "date": "2026-03-09"}, {"broker": "Fearnley", "target": 47, "rec": "Kjøp", "date": "2026-02-27"}, {"broker": "DNB Carnegie", "target": 37, "rec": "Selg", "date": "2026-02-09"}, {"broker": "SEB", "target": 40, "rec": "Hold", "date": "2026-02-09"}, {"broker": "SB1M", "target": 35, "rec": "Hold", "date": "2026-02-09"}, {"broker": "Pareto", "target": 46, "rec": "Kjøp", "date": "2026-02-05"}, {"broker": "Danske Bank", "target": 30, "rec": "Selg", "date": "2026-02-05"}, {"broker": "JP Morgan", "target": 34, "rec": "Selg", "date": "2026-01-30"}], "pe": 13.1, "roe": 22.6, "debtEquity": 27.9, "profitMargin": 4.1, "operatingMargin": 3.7, "dividendYield": null, "revenueGrowth": 6.5, "earningsGrowth": 5.7, "currentRatio": 0.94, "fcfYield": 6.41, "evEbitda": 5.3, "fundScore": 6.5, "fundDetail": {"roe": 9, "fcfYield": 7.5, "pe": 3.5, "evEbitda": 6.0, "debt": 9, "opMargin": 4, "revGrowth": 5.5, "earnGrowth": 6, "liquidity": 2.5}, "techScore": 8.3, "score": 7.4}, {"ticker": "GOD", "name": "Goodtech", "sector": "Industri", "price": 11.1, "ma20": 10.46, "ma50": 10.26, "ma200": 9.57, "bbUpper": 11.05, "bbLower": 9.87, "bbPctB": 1.042, "atr": 0.28, "atrPct": 2.52, "rsi": 72.7, "macd": 0.1, "return3m": 5.7, "return12m": 26.4, "week52High": 11.25, "week52Low": 8.14, "volumeTrend": -48.9, "obvTrend": 1.56, "targetPrice": 13.0, "buyCount": 2, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 2, "recMean": null, "brokerTargets": [{"broker": "Norne", "target": 13, "rec": "Kjøp", "date": "2026-02-20"}, {"broker": "SB1M", "target": 13, "rec": "Kjøp", "date": "2026-02-04"}], "pe": 10.7, "roe": 11.0, "debtEquity": 22.7, "profitMargin": 2.6, "operatingMargin": 7.5, "dividendYield": null, "revenueGrowth": 9.3, "earningsGrowth": null, "currentRatio": 1.29, "fcfYield": 15.51, "evEbitda": 5.6, "fundScore": 7.7, "fundDetail": {"roe": 6, "fcfYield": 9.5, "pe": 8.5, "evEbitda": 8.5, "debt": 9, "opMargin": 5.5, "revGrowth": 7, "liquidity": 6.5}, "techScore": 7.0, "score": 7.4}, {"ticker": "KIT", "name": "Kitron", "sector": "Tech", "price": 97.95, "ma20": 97.76, "ma50": 95.0, "ma200": 71.95, "bbUpper": 105.28, "bbLower": 90.23, "bbPctB": 0.513, "atr": 3.99, "atrPct": 4.07, "rsi": 52.2, "macd": -0.72, "return3m": 32.7, "return12m": 120.8, "week52High": 110.1, "week52Low": 44.37, "volumeTrend": 1.5, "obvTrend": 1.014, "targetPrice": 102.0, "buyCount": 5, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 6, "recMean": null, "brokerTargets": [{"broker": "SB1M", "target": 125, "rec": "Kjøp", "date": "2026-02-18"}, {"broker": "Norne", "target": 105, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "Nordea", "target": 100, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "DNB Carnegie", "target": 102, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "Pareto", "target": 100, "rec": "Kjøp", "date": "2026-02-13"}, {"broker": "ABG", "target": 80, "rec": "Hold", "date": "2026-01-27"}], "pe": 20.7, "roe": 17.1, "debtEquity": 36.4, "profitMargin": 5.9, "operatingMargin": 9.1, "dividendYield": null, "revenueGrowth": 45.5, "earningsGrowth": 300.0, "currentRatio": 1.8, "fcfYield": 0.34, "evEbitda": null, "fundScore": 7.0, "fundDetail": {"roe": 7.5, "fcfYield": 3.5, "pe": 7.5, "debt": 7.5, "opMargin": 5.5, "revGrowth": 9.5, "earnGrowth": 9, "liquidity": 8}, "techScore": 7.7, "score": 7.4}, {"ticker": "OET", "name": "Okeanis Eco Tankers", "sector": "Shipping", "price": 495.0, "ma20": 466.48, "ma50": 438.53, "ma200": 336.75, "bbUpper": 511.52, "bbLower": 421.43, "bbPctB": 0.817, "atr": 21.5, "atrPct": 4.34, "rsi": 70.4, "macd": 14.38, "return3m": 50.5, "return12m": 115.8, "week52High": 509.0, "week52Low": 194.23, "volumeTrend": 5.3, "obvTrend": 1.171, "targetPrice": 483.8, "buyCount": 4, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 6, "recMean": null, "brokerTargets": [{"broker": "ABG", "target": 495, "rec": "Hold", "date": "2026-03-05"}, {"broker": "SB1M", "target": 550, "rec": "Kjøp", "date": "2026-03-02"}, {"broker": "DNB Carnegie", "target": 475, "rec": "Hold", "date": "2026-02-20"}, {"broker": "Fearnley", "target": 505, "rec": "Kjøp", "date": "2026-02-20"}, {"broker": "Pareto", "target": 428, "rec": "Kjøp", "date": "2026-02-11"}, {"broker": "Clarksons", "target": 450, "rec": "Kjøp", "date": "2026-01-27"}], "pe": 11.8, "roe": null, "debtEquity": 105.6, "profitMargin": -8.6, "operatingMargin": 54.1, "dividendYield": null, "revenueGrowth": 48.9, "earningsGrowth": 330.4, "currentRatio": 0.45, "fcfYield": null, "evEbitda": null, "fundScore": 6.6, "fundDetail": {"pe": 5.0, "debt": 4.5, "opMargin": 9.5, "revGrowth": 9.5, "earnGrowth": 9, "liquidity": 2.5}, "techScore": 8.3, "score": 7.4}, {"ticker": "SNTIA", "name": "Sentia", "sector": "Bygg", "price": 73.8, "ma20": 70.54, "ma50": 68.31, "ma200": 64.65, "bbUpper": 72.8, "bbLower": 68.28, "bbPctB": 1.221, "atr": 1.76, "atrPct": 2.38, "rsi": 72.8, "macd": 0.92, "return3m": 18.5, "return12m": null, "week52High": 73.8, "week52Low": 56.65, "volumeTrend": -22.9, "obvTrend": 1.054, "targetPrice": 87.2, "buyCount": 4, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 5, "recMean": null, "brokerTargets": [{"broker": "DNB Carnegie", "target": 72, "rec": "Hold", "date": "2026-03-26"}, {"broker": "SB1M", "target": 95, "rec": "Kjøp", "date": "2026-03-26"}, {"broker": "Arctic", "target": 94, "rec": "Kjøp", "date": "2026-03-13"}, {"broker": "Pareto", "target": 90, "rec": "Kjøp", "date": "2026-02-16"}, {"broker": "ABG", "target": 85, "rec": "Kjøp", "date": "2026-02-16"}], "pe": 13.4, "roe": 32.7, "debtEquity": 11.6, "profitMargin": 4.8, "operatingMargin": 5.9, "dividendYield": null, "revenueGrowth": 21.4, "earningsGrowth": 114.8, "currentRatio": 1.08, "fcfYield": 56.03, "evEbitda": 4.8, "fundScore": 7.9, "fundDetail": {"roe": 9.5, "fcfYield": 9.5, "pe": 6.0, "evEbitda": 8.5, "debt": 9, "opMargin": 4, "revGrowth": 8, "earnGrowth": 9, "liquidity": 5}, "techScore": 7.0, "score": 7.4}, {"ticker": "SOFF", "name": "Solstad Offshore", "sector": "Offshore", "price": 68.1, "ma20": 61.44, "ma50": 55.15, "ma200": 49.41, "bbUpper": 70.23, "bbLower": 52.65, "bbPctB": 0.879, "atr": 2.26, "atrPct": 3.32, "rsi": 83.2, "macd": 3.88, "return3m": 55.3, "return12m": 90.0, "week52High": 69.9, "week52Low": 32.82, "volumeTrend": 81.6, "obvTrend": 1.074, "targetPrice": 66.4, "buyCount": 5, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 5, "recMean": null, "brokerTargets": [{"broker": "Clarksons", "target": 65, "rec": "Kjøp", "date": "2026-03-16"}, {"broker": "SB1M", "target": 70, "rec": "Kjøp", "date": "2026-03-05"}, {"broker": "Arctic", "target": 65, "rec": "Kjøp", "date": "2026-03-02"}, {"broker": "Fearnley", "target": 72, "rec": "Kjøp", "date": "2026-02-26"}, {"broker": "DNB Carnegie", "target": 60, "rec": "Kjøp", "date": "2026-02-12"}], "pe": 3.7, "roe": 39.6, "debtEquity": 88.5, "profitMargin": 48.1, "operatingMargin": 32.7, "dividendYield": null, "revenueGrowth": null, "earningsGrowth": -42.1, "currentRatio": 1.11, "fcfYield": 1.2, "evEbitda": 59.2, "fundScore": 6.6, "fundDetail": {"roe": 9.5, "fcfYield": 5, "pe": 9.5, "evEbitda": 2.0, "debt": 6, "opMargin": 9.5, "earnGrowth": 2.5, "liquidity": 5}, "techScore": 8.2, "score": 7.4}, {"ticker": "SBNOR", "name": "Sparebanken Norge", "sector": "Finans", "price": 201.75, "ma20": 189.42, "ma50": 186.82, "ma200": 168.76, "bbUpper": 198.5, "bbLower": 180.34, "bbPctB": 1.179, "atr": 4.26, "atrPct": 2.11, "rsi": 76.3, "macd": 2.46, "return3m": 12.2, "return12m": null, "week52High": 201.75, "week52Low": 127.2, "volumeTrend": 52.2, "obvTrend": 1.048, "targetPrice": 210.0, "buyCount": 1, "sellCount": 0, "signal": "Kjop", "analystSignal": "-", "analystCount": 3, "recMean": null, "brokerTargets": [], "pe": 12.1, "roe": 16.2, "debtEquity": null, "profitMargin": 56.2, "operatingMargin": 66.1, "dividendYield": null, "revenueGrowth": 76.0, "earningsGrowth": 1.4, "currentRatio": null, "fcfYield": null, "evEbitda": null, "fundScore": 7.5, "fundDetail": {"roe": 7.5, "pe": 6.0, "opMargin": 9.5, "revGrowth": 9.5, "earnGrowth": 5}, "techScore": 7.2, "score": 7.4}, {"ticker": "RING", "name": "SpareBank 1 Ringerike Hadeland", "sector": "Finans", "price": 446.0, "ma20": 434.12, "ma50": 412.85, "ma200": 368.65, "bbUpper": 449.08, "bbLower": 419.17, "bbPctB": 0.897, "atr": 6.48, "atrPct": 1.45, "rsi": 63.2, "macd": 8.57, "return3m": 19.0, "return12m": 30.5, "week52High": 447.85, "week52Low": 315.11, "volumeTrend": 18.9, "obvTrend": 1.017, "targetPrice": 460.0, "buyCount": 1, "sellCount": 0, "signal": "Kjop", "analystSignal": "-", "analystCount": 2, "recMean": null, "brokerTargets": [], "pe": 11.1, "roe": 13.6, "debtEquity": null, "profitMargin": 50.7, "operatingMargin": 62.5, "dividendYield": null, "revenueGrowth": 19.4, "earningsGrowth": 13.3, "currentRatio": null, "fcfYield": null, "evEbitda": null, "fundScore": 6.9, "fundDetail": {"roe": 6, "pe": 6.0, "opMargin": 9.5, "revGrowth": 8, "earnGrowth": 6}, "techScore": 7.9, "score": 7.4}, {"ticker": "VVL", "name": "Voss Veksel- og Landmandsbank", "sector": "Finans", "price": 446.0, "ma20": 428.9, "ma50": 413.56, "ma200": 389.78, "bbUpper": 450.79, "bbLower": 407.01, "bbPctB": 0.891, "atr": 14.86, "atrPct": 3.33, "rsi": 63.5, "macd": 8.49, "return3m": 13.2, "return12m": 29.8, "week52High": 460.0, "week52Low": 315.04, "volumeTrend": 124.2, "obvTrend": 1.001, "targetPrice": 462.0, "buyCount": 0, "sellCount": 0, "signal": "Kjop", "analystSignal": "-", "analystCount": 1, "recMean": null, "brokerTargets": [], "pe": 9.3, "roe": 11.0, "debtEquity": null, "profitMargin": 45.4, "operatingMargin": 56.6, "dividendYield": null, "revenueGrowth": 4.7, "earningsGrowth": 6.2, "currentRatio": null, "fcfYield": null, "evEbitda": null, "fundScore": 7.1, "fundDetail": {"roe": 6, "pe": 7.5, "opMargin": 9.5, "revGrowth": 5.5, "earnGrowth": 6}, "techScore": 7.6, "score": 7.4}, {"ticker": "WWI", "name": "Wilh. Wilhelmsen A", "sector": "Shipping", "price": 733.0, "ma20": 738.45, "ma50": 722.1, "ma200": 569.1, "bbUpper": 761.95, "bbLower": 714.95, "bbPctB": 0.384, "atr": 21.43, "atrPct": 2.92, "rsi": 47.1, "macd": 0.51, "return3m": 24.0, "return12m": 97.0, "week52High": 775.0, "week52Low": 338.21, "volumeTrend": 19.1, "obvTrend": 0.97, "targetPrice": 986.6, "buyCount": 1, "sellCount": 0, "signal": "Kjop", "analystSignal": "-", "analystCount": 2, "recMean": null, "brokerTargets": [], "pe": 8.1, "roe": 22.4, "debtEquity": 13.0, "profitMargin": 52.8, "operatingMargin": 11.0, "dividendYield": null, "revenueGrowth": 13.1, "earningsGrowth": 43.3, "currentRatio": 1.39, "fcfYield": -0.13, "evEbitda": null, "fundScore": 6.7, "fundDetail": {"roe": 9, "fcfYield": 2, "pe": 7.5, "debt": 9, "opMargin": 5.5, "revGrowth": 7, "earnGrowth": 9, "liquidity": 6.5}, "techScore": 8.0, "score": 7.4}, {"ticker": "WWIB", "name": "Wilh. Wilhelmsen B", "sector": "Shipping", "price": 652.0, "ma20": 645.1, "ma50": 633.3, "ma200": 521.28, "bbUpper": 665.47, "bbLower": 624.73, "bbPctB": 0.669, "atr": 15.36, "atrPct": 2.36, "rsi": 49.6, "macd": 0.99, "return3m": 19.0, "return12m": 84.5, "week52High": 676.0, "week52Low": 324.37, "volumeTrend": 9.6, "obvTrend": 1.168, "targetPrice": 968.5, "buyCount": 2, "sellCount": 0, "signal": "Kjop", "analystSignal": "Kjop", "analystCount": 2, "recMean": null, "brokerTargets": [{"broker": "DNB Carnegie", "target": 835, "rec": "Kjøp", "
+const PORTFOLIO_DATA=[];
+const OSEBX_DATA=[];
+const FAVORITES=[{"name": "Pareto Januar-portefolje", "broker": "Pareto", "month": "jan", "date": "2026-01-02", "stocks": ["AKRBP", "BAKKA", "CMBTO", "DNB", "ENVIP", "KOMPL", "KOG", "MORLD", "SNTIA", "STB"], "added": ["KOMPL", "KOG"], "removed": ["EPR", "PEXIP"]}, {"name": "Pareto Februar-portefolje", "broker": "Pareto", "month": "feb", "date": "2026-02-02", "stocks": ["AKSO", "BAKKA", "CMBTO", "DNO", "ENVIP", "KOMPL", "KOG", "NOD", "SNTIA", "STB"], "added": ["AKSO", "DNO", "NOD"], "removed": ["AKRBP", "DNB", "MORLD"]}, {"name": "Fearnley Februar-favoritter", "broker": "Fearnley", "month": "feb", "date": "2026-02-02", "stocks": ["BAKKA", "BNOR", "BORR", "BWLPG", "ORSTED", "STBULK", "FTI"], "added": [], "removed": [], "note": "Bakkafrost, Bluenord, Borr Drilling, BW LPG, Orsted, Star Bulk, Technip"}, {"name": "SEB Q1-portefolje", "broker": "SEB", "month": "jan", "date": "2026-01-05", "stocks": ["SALM", "STB", "VEND", "FRO", "BRG", "SCATC", "EPR", "PLSV", "ENDUR"], "added": [], "removed": []}, {"name": "SB1M Januar-favoritter", "broker": "SB1M", "month": "jan", "date": "2026-01-07", "stocks": ["AUTO", "AFG", "BAKKA", "AKRBP", "EQNR", "SOMA", "ODL", "DNB", "ELMRA", "LINK", "ENDUR", "KIT"], "added": ["AUTO", "AFG", "SOMA", "ODL", "DNB", "ELMRA", "LINK", "ENDUR", "KIT"], "removed": ["VAR", "SCATC", "NKR"]}, {"name": "SB1M Februar-favoritter", "broker": "SB1M", "month": "feb", "date": "2026-01-30", "stocks": ["AUTO", "BAKKA", "EQNR", "SOMA", "PEXIP", "LINK", "NOD", "ENDUR", "YAR", "ELMRA"], "added": ["PEXIP", "NOD", "YAR"], "removed": ["AFG", "AKRBP", "ODL", "DNB", "KIT"]}, {"name": "Pareto Mars-portefolje", "broker": "Pareto", "month": "mar", "date": "2026-03-02", "stocks": ["AKRBP", "AKSO", "BAKKA", "CMBTO", "DNO", "ENVIP", "KOG", "KOMPL", "NOD", "STB"], "added": ["AKRBP"], "removed": ["SNTIA"]}, {"name": "Fearnley Mars-favoritter", "broker": "Fearnley", "month": "mar", "date": "2026-03-02", "stocks": ["BNOR", "BRUTON", "MOWI", "ORSTED", "OTEC", "STBULK", "FTI"], "added": ["OTEC"], "removed": ["BAKKA", "BORR", "BWLPG"], "note": "BlueNord, Bruton, Mowi, Orsted, Odfjell Technology, StarBulk, Technip"}, {"name": "SB1M Mars-favoritter", "broker": "SB1M", "month": "mar", "date": "2026-03-03", "stocks": ["AUTO", "VEND", "SEHO", "AFG", "NEKKAR", "OMDA", "BAKKA", "ENDUR", "LINK", "TEL", "KOG", "ELMRA"], "added": ["VEND", "SEHO", "AFG", "NEKKAR", "OMDA", "KOG", "TEL"], "removed": ["EQNR", "SOMA", "PEXIP", "NOD", "YAR"]}, {"name": "Arctic Mars-portefolje", "broker": "Arctic", "month": "mar", "date": "2026-03-11", "stocks": ["DNB", "GOLAR", "SALM", "VEND", "ENDUR", "NAS", "PARB", "PEXIP", "SCATC"], "added": ["ENDUR", "NAS", "PARB", "PEXIP", "SCATC"], "removed": ["OKEA", "SUBC", "LINK", "TOM", "BRG"]}, {"name": "Danske Bank Mars-favoritter", "broker": "Danske Bank", "month": "mar", "date": "2026-03-19", "stocks": ["YAR", "NHY", "SALM", "STB", "NOD", "VEND", "FRO", "SCATC", "KOG"], "added": [], "removed": []}, {"name": "Pareto April-portefolje", "broker": "Pareto", "month": "apr", "date": "2026-04-01", "stocks": ["AKRBP", "ARCH", "BAKKA", "DNB", "ENVIP", "EPR", "HAFNI", "KOG", "NORBT", "VEND"], "added": ["ARCH", "DNB", "EPR", "HAFNI", "NORBT", "VEND"], "removed": ["AKSO", "CMBTO", "DNO", "KOMPL", "NOD", "STB"], "note": "Archer, DNB, Europris, Hafnia, Norbit og Vend inn. AkerBP, Bakkafrost, Envipco og KOG videre."}, {"name": "Fearnley April-favoritter", "broker": "Fearnley", "month": "apr", "date": "2026-04-01", "stocks": ["BNOR", "ENVIP", "MOWI", "FTI", "STBULK"], "added": ["ENVIP"], "removed": ["BRUTON", "ORSTED", "OTEC"], "note": "BlueNord, Constellation Oil Services, Envipco, Mowi, Technip og Star Bulk (CONS ikke OL-listet)"}, {"name": "SEB Q2-favoritter", "broker": "SEB", "month": "apr", "date": "2026-04-01", "stocks": ["DNB", "BON", "ENVIP", "SALM", "FRO", "VEND", "EPR", "PARATUS", "ENDUR"], "added": [], "removed": [], "note": "Q2-favoritter: DNB, Bonheur, Envipco, Salmar, Frontline, Vend, Europris, Paratus og Endur"}, {"name": "Clarksons Shipping-favoritter 2026", "broker": "Clarksons", "month": "jan", "date": "2026-01-02", "stocks": ["CMBTO"], "added": [], "removed": [], "note": "Liker ogsa tanksektoren generelt"}, {"name": "Pareto Shipping-favoritter 2026", "broker": "Pareto", "month": "jan", "date": "2026-01-02", "stocks": ["CMBTO", "HSHP"], "added": [], "removed": []}, {"name": "Fearnley Shipping-favoritter 2026", "broker": "Fearnley", "month": "jan", "date": "2026-01-02", "stocks": ["CMBTO", "BWLPG"], "added": [], "removed": []}, {"name": "Arctic Shipping-favoritter 2026", "broker": "Arctic", "month": "jan", "date": "2026-01-02", "stocks": ["FRO", "GOLAR"], "added": [], "removed": []}, {"name": "ABG Shipping-favoritter 2026", "broker": "ABG", "month": "jan", "date": "2026-01-02", "stocks": ["CMBTO"], "added": [], "removed": [], "note": "Liker ogsa Bruton"}, {"name": "SB1M Shipping-favoritter 2026", "broker": "SB1M", "month": "jan", "date": "2026-01-02", "stocks": ["BWLPG", "FRO"], "added": [], "removed": []}, {"name": "DNB Carnegie Shipping-favoritter 2026", "broker": "DNB Carnegie", "month": "jan", "date": "2026-01-02", "stocks": ["SNI", "GOLAR"], "added": [], "removed": []}, {"name": "Fearnley Oljeservice-favoritter 2026", "broker": "Fearnley", "month": "jan", "date": "2026-01-05", "stocks": ["BORR", "ODL", "AKSO", "DOFG"], "added": [], "removed": [], "note": "Equinor og Bluenord favoritter blant produsenter"}, {"name": "SEB Oljeservice-favoritter 2026", "broker": "SEB", "month": "jan", "date": "2026-01-06", "stocks": ["TGS", "BORR", "PLSV"], "added": [], "removed": []}, {"name": "DNB Carnegie Oljeservice-favoritter 2026", "broker": "DNB Carnegie", "month": "jan", "date": "2026-01-06", "stocks": ["BORR", "ODL", "SUBC"], "added": [], "removed": []}, {"name": "Arctic Oljeservice-favoritter 2026", "broker": "Arctic", "month": "jan", "date": "2026-01-06", "stocks": ["DOFG", "SUBC"], "added": [], "removed": []}];
+const SECTOR_REVIEWS=[{"name": "Fearnley Oppdrettsrapport", "broker": "Fearnley", "date": "2026-01-05", "sector": "Sjomat", "note": "Salmar og Mowi fremheves som toppvalg"}, {"name": "ABG Oljesektorrapport", "broker": "ABG", "date": "2026-01-06", "sector": "Energi", "note": "Brent 60 USD 1H26, 70 USD 2H26, 75 USD deretter"}, {"name": "Arctic Oljesektorrapport", "broker": "Arctic", "date": "2026-01-15", "sector": "Energi", "note": "Brent 75 USD i 2026 (bull). Equinor og Aker BP toppvalg."}, {"name": "DNB Carnegie Oppdrettsrapport", "broker": "DNB Carnegie", "date": "2026-01-26", "sector": "Sjomat", "note": "Bred kjopsanbefaling i sektoren"}, {"name": "Danske Bank Oppdrettsrapport", "broker": "Danske Bank", "date": "2026-01-30", "sector": "Sjomat", "note": "Salmar, Mowi og Grieg Seafood toppvalg"}, {"name": "Arctic Tanksektorrapport", "broker": "Arctic", "date": "2026-01-28", "sector": "Shipping", "note": "Frontline, Hafnia og Odfjell toppvalg"}, {"name": "ABG Oppdrettsrapport Feb", "broker": "ABG", "date": "2026-02-02", "sector": "Sjomat", "note": "Kuttet kursmaal i sektoren. Lerøy og Salmar kjøp, Bakkafrost/Grieg/Austevoll hold."}, {"name": "Fearnley Oppdrettsrapport Feb", "broker": "Fearnley", "date": "2026-02-02", "sector": "Sjomat", "note": "Nedgraderer Austevoll og Grieg fra kjøp til hold. Mowi/Lerøy/Bakkafrost/Salme kjøp."}, {"name": "Arctic Rigg-sektorrapport Feb", "broker": "Arctic", "date": "2026-02-02", "sector": "Rigg", "note": "Nye kursmaal: Northern Ocean, Odfjell Drilling, Seadrill, Paratus, Transocean kjøp."}, {"name": "Danske Bank Oljeservice Feb", "broker": "Danske Bank", "date": "2026-02-05", "sector": "Oljeservice", "note": "Nedgraderer Aker Solutions og Subsea 7 til selg. DOF, Odfjell Tech, Solstad kjøp."}, {"name": "Norne Oppdrettsrapport Mar", "broker": "Norne", "date": "2026-03-03", "sector": "Sjomat", "note": "Austevoll og Lerøy oppgradert til kjøp. Grieg nedgradert til hold. Mowi kjøp, Bakkafrost/Salmar hold."}, {"name": "SB1M Oljesektor Mar", "broker": "SB1M", "date": "2026-03-05", "sector": "Energi", "note": "Take chips off the table. Equinor nedgradert til hold. Subsea 7 nedgradert til nøytral."}, {"name": "DNB Carnegie Oljesektor Mar", "broker": "DNB Carnegie", "date": "2026-03-16", "sector": "Energi", "note": "Brent USD 84 i 2026. Okea oppgradert til kjøp. BlueNord nedgradert til selg."}, {"name": "Fearnley Oljesektor Mar", "broker": "Fearnley", "date": "2026-03-16", "sector": "Energi", "note": "Equinor kjøp NOK 400. Vår Energi nedgradert til hold. BlueNord kjøp."}, {"name": "Arctic Oljesektor Mar", "broker": "Arctic", "date": "2026-03-17", "sector": "Energi", "note": "Brent USD 90 Q2, USD 80 2026. Nedgraderer Equinor/AkerBP/Vår/BlueNord/Okea/BWE til hold. Panoro kjøp."}, {"name": "Clarksons Supply Mar", "broker": "Clarksons", "date": "2026-03-16", "sector": "Supply", "note": "Tidewater kjøp. DOF Group nedgradert til hold. Solstad Maritime oppgradert til kjøp."}, {"name": "DNB Carnegie Oppdrettsrapport Mar", "broker": "DNB Carnegie", "date": "2026-03-18", "sector": "Sjomat", "note": "Mowi sektorfavoritt. Icelandic Salmon oppgradert til kjøp. Arctic Fish kjøp NOK 58."}, {"name": "Pareto E&P Sektorrapport Mar", "broker": "Pareto", "date": "2026-03-27", "sector": "Energi", "note": "This time is different - stay long. Brent USD 90 (65) 2026, USD 80 (70) 2027+. TTF USD 15 (10) 2026. Equinor nedgradert til hold. Aker BP oppgradert til kjøp. Vår Energi oppgradert til kjøp. Størst oppside BWE 42%, Panoro 41%, IPC 35%."}, {"name": "SB1M Oljesektorrapport Mar 31", "broker": "SB1M", "date": "2026-03-31", "sector": "Energi", "note": "Brent USD 91 (70) 2026, USD 80 (76) 2027, USD 75 (76) 2028. TTF USD 18 (10), 15 (10), 10 (10). Okea nedgradert til nøytral. AkerBP/Equinor/BWE/Vår nøytral. BlueNord/DNO/Panoro/Questerre kjøp."}, {"name": "Norne Oljesektoroppdatering Mar 31", "broker": "Norne", "date": "2026-03-31", "sector": "Energi", "note": "Aker BP nedgradert til selg NOK 320. Equinor økt til NOK 380, gjentar selg. Vår Energi økt til NOK 70, gjentar kjøp."}, {"name": "SEB Oljesektor Apr", "broker": "SEB", "date": "2026-04-01", "sector": "Energi", "note": "Brent USD 100 (2026), USD 85 (2027), USD 80 (2028). Equinor nedgradert fra hold til selg NOK 366. Aker BP selg NOK 321. Vår Energi selg NOK 37. Q2-sektorfavoritter: DNB, Bonheur, Envipco, Salmar, Frontline, Vend, Europris, Paratus og Endur."}];
+const NEWS_DATA=[];
+const INSIDER_MAP={"SB1NO": {"buy": 0, "sell": 0}, "B2I": {"buy": 2, "sell": 0}, "STB": {"buy": 1, "sell": 0}, "PROT": {"buy": 2, "sell": 1}, "TEL": {"buy": 3, "sell": 0}, "LINK": {"buy": 0, "sell": 0}, "SMOP": {"buy": 0, "sell": 0}, "NORCO": {"buy": 3, "sell": 1}, "VEI": {"buy": 1, "sell": 0}, "SATS": {"buy": 0, "sell": 0}, "EPR": {"buy": 2, "sell": 0}, "VAR": {"buy": 8, "sell": 7}, "DOFG": {"buy": 1, "sell": 0}, "TGS": {"buy": 1, "sell": 0}, "KCC": {"buy": 2, "sell": 0}, "YAR": {"buy": 0, "sell": 0}, "SBO": {"buy": 0, "sell": 3}, "TOM": {"buy": 3, "sell": 0}, "IWS": {"buy": 1, "sell": 0}, "MEDI": {"buy": 1, "sell": 0}, "SALM": {"buy": 5, "sell": 1}, "PEXIP": {"buy": 2, "sell": 1}, "APR": {"buy": 0, "sell": 0}, "GENO": {"buy": 0, "sell": 0}};
+let D=PORTFOLIO_DATA;
+let currentTab='portfolio';
+/* Build sector->tickers map */
+function buildSecTickers(data){const m={};data.forEach(d=>{if(!m[d.sector])m[d.sector]=[];m[d.sector].push(d.ticker)});return m}
+let secTickers=buildSecTickers(D);
+
+function drawPie(secData, data, showTickers){
+const canvas=document.getElementById("pieCanvas");
+const ctx=canvas.getContext("2d");
+ctx.clearRect(0,0,500,500);
+const entries=Object.entries(secData).sort((a,b)=>b[1]-a[1]);
+const total=entries.reduce((s,e)=>s+e[1],0);
+const st=buildSecTickers(data);
+const cx=250,cy=250,R=240,r=130;
+let angle=-Math.PI/2;
+entries.forEach(([sec,count])=>{
+const sweep=(count/total)*2*Math.PI;
+ctx.beginPath();
+ctx.arc(cx,cy,R,angle,angle+sweep);
+ctx.arc(cx,cy,r,angle+sweep,angle,true);
+ctx.closePath();
+ctx.fillStyle=COLORS[sec]||"#999";
+ctx.fill();
+ctx.strokeStyle="rgba(255,255,255,0.3)";ctx.lineWidth=1.5;ctx.stroke();
+const midAngle=angle+sweep/2;
+const labelR=(R+r)/2;
+const lx=cx+Math.cos(midAngle)*labelR;
+const ly=cy+Math.sin(midAngle)*labelR;
+const tickers=(st[sec]||[]);
+const pct=Math.round((count/total)*100);
+const sweepDeg=sweep*180/Math.PI;
+const titleSize=Math.max(11,Math.min(16,Math.round(sweepDeg/4.5)));
+const tickerSize=Math.max(9,Math.min(13,Math.round(sweepDeg/5.5)));
+if(sweep>0.15){
+ctx.save();
+ctx.translate(lx,ly);
+let rot=midAngle;
+if(rot>Math.PI/2&&rot<3*Math.PI/2)rot+=Math.PI;
+if(rot<-Math.PI/2&&rot>-3*Math.PI/2)rot+=Math.PI;
+ctx.rotate(rot);
+ctx.textAlign="center";ctx.textBaseline="middle";
+ctx.fillStyle="#fff";
+ctx.font="bold "+titleSize+"px system-ui,sans-serif";
+ctx.shadowColor="rgba(0,0,0,0.6)";ctx.shadowBlur=4;
+if(showTickers){
+ctx.fillText(sec+" "+pct+"%",0,-9);
+ctx.font=tickerSize+"px system-ui,sans-serif";
+ctx.shadowBlur=3;
+const tickStr=tickers.join("  ");
+ctx.fillText(tickStr,0,9);
+}else{
+ctx.fillText(sec+" "+pct+"%",0,0);
+}
+ctx.shadowBlur=0;ctx.shadowColor="transparent";
+ctx.restore();
+}else if(sweep>0.04){
+ctx.save();
+ctx.translate(lx,ly);
+let rot=midAngle;
+if(rot>Math.PI/2&&rot<3*Math.PI/2)rot+=Math.PI;
+if(rot<-Math.PI/2&&rot>-3*Math.PI/2)rot+=Math.PI;
+ctx.rotate(rot);
+ctx.textAlign="center";ctx.textBaseline="middle";
+ctx.fillStyle="#fff";ctx.font="bold 10px system-ui,sans-serif";
+ctx.shadowColor="rgba(0,0,0,0.6)";ctx.shadowBlur=3;
+if(showTickers){
+ctx.fillText(sec+": "+tickers.join(" "),0,0);
+}else{
+ctx.fillText(sec+" "+pct+"%",0,0);
+}
+ctx.shadowBlur=0;ctx.shadowColor="transparent";
+ctx.restore();
+}
+angle+=sweep;
+});
+document.querySelector(".pie-center .pc-num").textContent=Object.keys(secData).length;
+}
+
+function switchTab(tab,btn){
+currentTab=tab;
+document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+const mv=document.getElementById("mainView");
+const sv=document.getElementById("secView");
+const fv=document.getElementById("favView");
+const cv=document.getElementById("consensusView");
+const nv=document.getElementById("newsView");
+sv.classList.remove("show");
+fv.classList.remove("show");
+cv.classList.remove("show");
+nv.classList.remove("show");
+const iv2=document.getElementById("insiderView");
+if(iv2)iv2.classList.remove("show");
+if(tab==='favorites'){
+mv.style.display="none";
+fv.classList.add("show");
+buildFavoritesView();
+return;
+}
+if(tab==='consensus'){
+mv.style.display="none";
+fv.classList.remove("show");
+cv.classList.add("show");
+buildConsensusView();
+return;
+}
+if(tab==='news'){
+mv.style.display="none";
+nv.classList.add("show");
+buildNewsView();
+return;
+}
+if(tab==='insider'){
+mv.style.display="none";
+const iv=document.getElementById("insiderView");
+iv.classList.add("show");
+return;
+}
+mv.style.display="block";
+if(tab==='portfolio'){
+D=PORTFOLIO_DATA;
+drawPie(SEC,PORTFOLIO_DATA,true);
+document.getElementById("stockCount").textContent=PORTFOLIO_DATA.length;
+document.getElementById("searchWrap").style.display="none";
+document.getElementById("osebxSubtabs").style.display="none";
+document.getElementById("tp").style.display="block";
+document.querySelector(".sorts").style.display="flex";
+document.querySelector(".tbl").style.display="block";
+document.querySelector(".lg").style.display="flex";
+}else if(tab==='osebx'){
+D=OSEBX_DATA;
+drawPie(OSEBX_SEC,OSEBX_DATA,false);
+document.getElementById("stockCount").textContent=OSEBX_DATA.length;
+document.getElementById("searchWrap").style.display="block";
+document.getElementById("stockSearch").value="";
+document.getElementById("searchResult").textContent="";
+document.getElementById("osebxSubtabs").style.display="flex";
+switchOsebxSub('list');
+}else if(tab==='sectors'){
+mv.style.display="none";
+sv.classList.add("show");
+buildSectorView();
+document.getElementById("osebxSubtabs").style.display="flex";
+return;
+}
+secTickers=buildSecTickers(D);
+cs="score";
+document.querySelectorAll(".sorts button").forEach(x=>x.classList.remove("on"));
+document.querySelector(".sorts button").classList.add("on");
+rr();
+}
+
+function buildFavoritesView(){
+const allData=[...PORTFOLIO_DATA,...OSEBX_DATA];
+const stockMap={};
+allData.forEach(d=>{stockMap[d.ticker]=d});
+const sc=s=>s>=7?"var(--g)":s>=5?"var(--a)":"var(--r)";
+
+/* Group favorites by category */
+const portfolios=FAVORITES.filter(f=>f.name.includes('portefolje')||f.name.includes('favoritter')&&!f.name.includes('Shipping')&&!f.name.includes('Oljeservice'));
+const shipping=FAVORITES.filter(f=>f.name.includes('Shipping'));
+const oilservice=FAVORITES.filter(f=>f.name.includes('Oljeservice'));
+
+/* Find the latest month across all portfolios */
+const monthOrder={'jan':1,'feb':2,'mar':3,'apr':4,'mai':5,'jun':6,'jul':7,'aug':8,'sep':9,'okt':10,'nov':11,'des':12};
+let latestMonth='jan';
+let latestMonthNum=1;
+portfolios.forEach(f=>{
+const mNum=monthOrder[f.month]||0;
+if(mNum>latestMonthNum){latestMonthNum=mNum;latestMonth=f.month}
+});
+const monthNames={'jan':'Januar','feb':'Februar','mar':'Mars','apr':'April','mai':'Mai','jun':'Juni','jul':'Juli','aug':'August','sep':'September','okt':'Oktober','nov':'November','des':'Desember'};
+
+/* Split into current and archive */
+const currentPortfolios=portfolios.filter(f=>f.month===latestMonth);
+const archivePortfolios=portfolios.filter(f=>f.month!==latestMonth);
+
+/* Group archive by month (descending) */
+const archiveByMonth={};
+archivePortfolios.forEach(f=>{
+if(!archiveByMonth[f.month])archiveByMonth[f.month]=[];
+archiveByMonth[f.month].push(f);
+});
+const archiveMonths=Object.keys(archiveByMonth).sort((a,b)=>(monthOrder[b]||0)-(monthOrder[a]||0));
+
+let html='<div style="padding:4px 0;margin:14px 0 6px 0;font-size:15px;font-weight:700">Meglerhus-favoritter</div>';
+html+='<div class="subtabs" style="margin-bottom:12px"><button class="active" data-favsub="fav">Favoritter</button><button data-favsub="cons">Konsensus</button></div>';
+html+='<div id="favSubContent">';
+html+='<div style="font-size:11px;color:var(--t2);margin-bottom:12px">Manedsportefoljer og aksjefavoritter fra norske meglerhus. Kilde: BorsXtra/XtraInvestor.</div>';
+
+/* Render a portfolio card */
+function renderFavCard(f,showChanges){
+let ch='<div class="fav-card"><div class="fav-hdr"><span class="fav-broker">'+f.broker+'</span><div class="fav-name">'+f.name+'</div><div class="fav-date">'+f.date+'</div></div><div class="fav-body"><div class="fav-stocks">';
+f.stocks.forEach(tk=>{
+const isAdded=showChanges&&f.added&&f.added.includes(tk);
+const d=stockMap[tk];
+const label=d?d.name:tk;
+const scoreHtml=d?' <span style="font-size:9px;color:'+sc(d.score)+'">'+d.score+'</span>':'';
+ch+='<span class="fav-tag'+(isAdded?' added':'')+'">'+label+scoreHtml+'</span>';
+});
+if(showChanges&&f.removed&&f.removed.length>0){
+f.removed.forEach(tk=>{
+const d=stockMap[tk];
+const label=d?d.name:tk;
+ch+='<span class="fav-tag removed">'+label+'</span>';
+});
+}
+ch+='</div>';
+if(f.note)ch+='<div class="fav-note">'+f.note+'</div>';
+ch+='</div></div>';
+return ch;
+}
+
+/* Current month portfolios */
+html+='<div class="fav-section">Aktuelle portefoljer – '+(monthNames[latestMonth]||latestMonth)+'</div>';
+currentPortfolios.forEach(f=>{html+=renderFavCard(f,true)});
+
+/* Archive */
+if(archiveMonths.length>0){
+html+='<div class="fav-section" style="margin-top:18px;cursor:pointer" data-action="toggleFavArchive">';
+html+='<span id="favArchiveArrow" style="font-size:11px;margin-right:4px">▶</span>Tidligere maneder</div>';
+html+='<div id="favArchive" style="display:none">';
+archiveMonths.forEach(m=>{
+html+='<div style="padding:6px 0 2px 0;font-size:12px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);margin:8px 0 6px 0">'+(monthNames[m]||m)+'</div>';
+archiveByMonth[m].forEach(f=>{html+=renderFavCard(f,true)});
+});
+html+='</div>';
+}
+
+/* Shipping */
+if(shipping.length>0){
+html+='<div class="fav-section">Shipping-favoritter 2026</div>';
+shipping.forEach(f=>{
+html+='<div class="fav-card"><div class="fav-hdr"><span class="fav-broker">'+f.broker+'</span><div class="fav-name">'+f.name+'</div><div class="fav-date">'+f.date+'</div></div><div class="fav-body"><div class="fav-stocks">';
+f.stocks.forEach(tk=>{
+const d=stockMap[tk];
+const label=d?d.name:tk;
+html+='<span class="fav-tag">'+label+'</span>';
+});
+html+='</div>';
+if(f.note)html+='<div class="fav-note">'+f.note+'</div>';
+html+='</div></div>';
+});
+}
+
+/* Oil service */
+if(oilservice.length>0){
+html+='<div class="fav-section">Oljeservice-favoritter 2026</div>';
+oilservice.forEach(f=>{
+html+='<div class="fav-card"><div class="fav-hdr"><span class="fav-broker">'+f.broker+'</span><div class="fav-name">'+f.name+'</div><div class="fav-date">'+f.date+'</div></div><div class="fav-body"><div class="fav-stocks">';
+f.stocks.forEach(tk=>{
+const d=stockMap[tk];
+const label=d?d.name:tk;
+html+='<span class="fav-tag">'+label+'</span>';
+});
+html+='</div>';
+if(f.note)html+='<div class="fav-note">'+f.note+'</div>';
+html+='</div></div>';
+});
+}
+
+/* Sector reviews */
+if(SECTOR_REVIEWS.length>0){
+/* Find latest month from dates */
+let srLatestM=0;
+SECTOR_REVIEWS.forEach(r=>{const m=parseInt(r.date.split('-')[1]);if(m>srLatestM)srLatestM=m});
+const srMonthNames2={1:'Januar',2:'Februar',3:'Mars',4:'April',5:'Mai',6:'Juni',7:'Juli',8:'August',9:'September',10:'Oktober',11:'November',12:'Desember'};
+const srCurrent=SECTOR_REVIEWS.filter(r=>parseInt(r.date.split('-')[1])===srLatestM);
+const srArchive=SECTOR_REVIEWS.filter(r=>parseInt(r.date.split('-')[1])!==srLatestM);
+const srArchByMonth={};
+srArchive.forEach(r=>{const m=parseInt(r.date.split('-')[1]);if(!srArchByMonth[m])srArchByMonth[m]=[];srArchByMonth[m].push(r)});
+const srArchMonths=Object.keys(srArchByMonth).map(Number).sort((a,b)=>b-a);
+
+html+='<div class="fav-section">Sektorgjennomganger – '+srMonthNames2[srLatestM]+'</div>';
+srCurrent.forEach(r=>{
+const color=COLORS[r.sector]||"#999";
+html+='<div class="fav-card"><div class="fav-hdr"><div class="sec-dot" style="background:'+color+'"></div><span class="fav-broker">'+r.broker+'</span><div class="fav-name">'+r.name+'</div><div class="fav-date">'+r.date+'</div></div><div class="fav-body"><div class="fav-note">'+r.note+'</div></div></div>';
+});
+if(srArchMonths.length>0){
+html+='<div class="fav-section" style="margin-top:18px;cursor:pointer" data-action="toggleSectorArchive">';
+html+='<span id="secArchiveArrow" style="font-size:11px;margin-right:4px">▶</span>Tidligere sektorrapporter</div>';
+html+='<div id="secArchive" style="display:none">';
+srArchMonths.forEach(m=>{
+html+='<div style="padding:6px 0 2px 0;font-size:12px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);margin:8px 0 6px 0">'+srMonthNames2[m]+'</div>';
+srArchByMonth[m].forEach(r=>{
+const color=COLORS[r.sector]||"#999";
+html+='<div class="fav-card"><div class="fav-hdr"><div class="sec-dot" style="background:'+color+'"></div><span class="fav-broker">'+r.broker+'</span><div class="fav-name">'+r.name+'</div><div class="fav-date">'+r.date+'</div></div><div class="fav-body"><div class="fav-note">'+r.note+'</div></div></div>';
+});
+});
+html+='</div>';
+}
+}
+
+document.getElementById("favView").innerHTML=html+'</div>';
+}
+
+function toggleFavArchive(){
+const el=document.getElementById('favArchive');
+const arr=document.getElementById('favArchiveArrow');
+if(el.style.display==='none'){el.style.display='block';arr.textContent='▼'}
+else{el.style.display='none';arr.textContent='▶'}
+}
+
+function toggleSectorArchive(){
+const el=document.getElementById('secArchive');
+const arr=document.getElementById('secArchiveArrow');
+if(el.style.display==='none'){el.style.display='block';arr.textContent='▼'}
+else{el.style.display='none';arr.textContent='▶'}
+}
+
+function toggleConsensusHistory(){
+const el=document.getElementById('consHistory');
+const arr=document.getElementById('consHistArrow');
+if(el.style.display==='none'){el.style.display='block';arr.textContent='▼'}
+else{el.style.display='none';arr.textContent='▶'}
+}
+
+function switchFavSub(sub,btn){
+if(btn){document.querySelectorAll('#favView .subtabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+if(sub==='cons'){
+switchTab('consensus',document.querySelector('.tabs button:nth-child(2)'));
+document.querySelector('.tabs button:nth-child(2)').classList.add('active');
+}
+}
+
+function switchOsebxSub(sub,btn){
+const osbtns=document.querySelectorAll('#osebxSubtabs button');
+osbtns.forEach(b=>b.classList.remove('active'));
+if(btn)btn.classList.add('active');else osbtns[0].classList.add('active');
+const mv=document.getElementById('mainView');
+const sv=document.getElementById('secView');
+const sortsEl=document.querySelector('.sorts');
+const tblEl=document.querySelector('.tbl');
+const lgEl=document.querySelector('.lg');
+const srchEl=document.getElementById('searchWrap');
+const tpEl=document.getElementById('tp');
+if(sub==='sectors'){
+sortsEl.style.display='none';tblEl.style.display='none';lgEl.style.display='none';
+srchEl.style.display='none';tpEl.style.display='none';
+sv.classList.add('show');sv.style.marginTop='0';
+buildSectorView();
+}else{
+sortsEl.style.display='flex';tblEl.style.display='block';lgEl.style.display='flex';
+srchEl.style.display='block';tpEl.style.display='block';
+sv.classList.remove('show');
+}
+}
+
+function buildConsensusView(){
+const allData=[...PORTFOLIO_DATA,...OSEBX_DATA];
+const stockMap={};
+allData.forEach(d=>{stockMap[d.ticker]=d});
+const sc=s=>s>=7?"var(--g)":s>=5?"var(--a)":"var(--r)";
+
+const portfolios=FAVORITES.filter(f=>f.name.includes('portefolje')||f.name.includes('favoritter')&&!f.name.includes('Shipping')&&!f.name.includes('Oljeservice'));
+
+const monthOrder={'jan':1,'feb':2,'mar':3,'apr':4,'mai':5,'jun':6,'jul':7,'aug':8,'sep':9,'okt':10,'nov':11,'des':12};
+let latestMonth='jan';let latestMonthNum=1;
+portfolios.forEach(f=>{const mNum=monthOrder[f.month]||0;if(mNum>latestMonthNum){latestMonthNum=mNum;latestMonth=f.month}});
+const monthNames={'jan':'Januar','feb':'Februar','mar':'Mars','apr':'April','mai':'Mai','jun':'Juni','jul':'Juli','aug':'August','sep':'September','okt':'Oktober','nov':'November','des':'Desember'};
+
+const currentPfs=portfolios.filter(f=>f.month===latestMonth);
+const stockCount={};
+const stockBrokers={};
+currentPfs.forEach(f=>{
+f.stocks.forEach(tk=>{
+if(!stockCount[tk]){stockCount[tk]=0;stockBrokers[tk]=[]}
+stockCount[tk]++;
+stockBrokers[tk].push(f.broker);
+});
+});
+
+const ranked=Object.entries(stockCount).sort((a,b)=>b[1]-a[1]);
+const totalBrokers=currentPfs.length;
+
+let html='<div style="padding:4px 0;margin:14px 0 6px 0;font-size:15px;font-weight:700">Meglerhus-favoritter</div>';
+html+='<div class="subtabs" style="margin-bottom:12px"><button data-favsub="fav">Favoritter</button><button class="active" data-favsub="cons">Konsensus</button></div>';
+html+='<div style="font-size:11px;color:var(--t2);margin-bottom:12px">Aksjer rangert etter hvor mange meglerhus ('+totalBrokers+') som har dem i sine aktuelle manedsportefoljer.</div>';
+
+html+='<div class="tbl"><div style="display:grid;grid-template-columns:30px 1fr 50px 60px 50px 50px 1fr;padding:8px 12px;font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--bd);background:var(--bg2)"><div>#</div><div>Aksje</div><div style="text-align:center">Antall</div><div style="text-align:right">Kurs</div><div style="text-align:right">Mal</div><div style="text-align:right">Oppside</div><div style="text-align:right">Meglerhus</div></div>';
+
+ranked.forEach(([tk,count],i)=>{
+const d=stockMap[tk];
+const name=d?d.name:tk;
+const price=d?d.price:'-';
+const target=d&&d.targetPrice?Math.round(d.targetPrice):'-';
+const upside=d&&d.upside!=null?d.upside:null;
+const upc=upside!=null?(upside>0?"var(--g)":upside<0?"var(--r)":"var(--t)"):"var(--t3)";
+const barColor=count>=3?"var(--g)":count>=2?"var(--a)":"var(--t3)";
+const brokerList=stockBrokers[tk].join(', ');
+
+html+='<div style="display:grid;grid-template-columns:30px 1fr 50px 60px 50px 50px 1fr;padding:10px 12px;align-items:center;border-bottom:.5px solid var(--bd)">';
+html+='<span style="font-size:12px;font-weight:700;color:'+(i<3?'var(--g)':'var(--t3)')+'">'+(i+1)+'</span>';
+html+='<div><div style="font-size:12.5px;font-weight:500">'+name+'</div><div style="font-size:9px;color:var(--t3)">'+tk+'</div></div>';
+html+='<div style="text-align:center"><span style="font-size:14px;font-weight:700;color:'+barColor+'">'+count+'</span><span style="font-size:9px;color:var(--t3)">/'+totalBrokers+'</span></div>';
+html+='<div style="text-align:right;font-size:11px">'+(typeof price==="number"?price.toFixed(2):price)+'</div>';
+html+='<div style="text-align:right;font-size:11px">'+target+'</div>';
+html+='<div style="text-align:right;font-size:11px;font-weight:600;color:'+upc+'">'+(upside!=null?upside+'%':'-')+'</div>';
+html+='<div style="text-align:right;font-size:9px;color:var(--t2)">'+brokerList+'</div>';
+html+='</div>';
+});
+html+='</div>';
+
+html+='<div style="margin-top:24px;padding:4px 0;font-size:13px;font-weight:700;color:var(--t);border-bottom:1px solid var(--bd);padding-bottom:6px;cursor:pointer" data-action="toggleConsensusHistory">';
+html+='<span id="consHistArrow" style="font-size:11px;margin-right:4px">▶</span>Konsensus-historikk (alle maneder)</div>';
+html+='<div id="consHistory" style="display:none">';
+
+const allMonths=[...new Set(portfolios.map(f=>f.month))].sort((a,b)=>(monthOrder[a]||0)-(monthOrder[b]||0));
+allMonths.forEach(m=>{
+const mPfs=portfolios.filter(f=>f.month===m);
+const mCount={};const mBrokers={};
+mPfs.forEach(f=>{f.stocks.forEach(tk=>{if(!mCount[tk]){mCount[tk]=0;mBrokers[tk]=[]}mCount[tk]++;mBrokers[tk].push(f.broker)})});
+const mRanked=Object.entries(mCount).sort((a,b)=>b[1]-a[1]).filter(([,c])=>c>=2);
+if(mRanked.length>0){
+html+='<div style="padding:6px 0 2px 0;font-size:12px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);margin:8px 0 6px 0">'+(monthNames[m]||m)+' ('+mPfs.length+' portefoljer)</div>';
+mRanked.forEach(([tk,count])=>{
+const d=stockMap[tk];
+const name=d?d.name:tk;
+const barColor=count>=3?"var(--g)":count>=2?"var(--a)":"var(--t3)";
+html+='<div style="display:flex;align-items:center;gap:8px;padding:4px 12px;font-size:11px"><span style="font-weight:700;color:'+barColor+'">'+count+'x</span><span style="font-weight:500">'+name+'</span><span style="font-size:9px;color:var(--t3)">('+mBrokers[tk].join(', ')+')</span></div>';
+});
+}
+});
+html+='</div>';
+
+document.getElementById("consensusView").innerHTML=html;
+}
+
+function buildSectorView(){
+const all=[...OSEBX_DATA];
+all.forEach(d=>{if(d.upside==null)d.upside=d.targetPrice?Math.round(((d.targetPrice-d.price)/d.price)*100):null});
+const sectors={};
+all.forEach(d=>{if(!sectors[d.sector])sectors[d.sector]=[];sectors[d.sector].push(d)});
+const sc=s=>s>=7?"var(--g)":s>=5?"var(--a)":"var(--r)";
+const rd=(v,d2=1)=>v!=null?Number(v.toFixed(d2)):"-";
+let html='<div style="padding:4px 0;margin:14px 0 6px 0;font-size:15px;font-weight:700">Topp 3 per sektor (Oslo Bors)</div>';
+html+='<div style="font-size:11px;color:var(--t2);margin-bottom:12px">Rangert etter Total Score (teknisk + fundamental). Finn aksjer som kan styrke portefoljen din.</div>';
+const sorted=Object.entries(sectors).sort((a,b)=>{const avgA=a[1].reduce((s,x)=>s+x.score,0)/a[1].length;const avgB=b[1].reduce((s,x)=>s+x.score,0)/b[1].length;return avgB-avgA});
+sorted.forEach(([sec,stocks])=>{
+const top=stocks.sort((a,b)=>b.score-a.score).slice(0,3);
+const color=COLORS[sec]||"#999";
+html+='<div class="sec-card"><div class="sec-hdr"><div class="sec-dot" style="background:'+color+'"></div><div class="sec-name">'+sec+'</div><div class="sec-cnt">'+stocks.length+' aksjer</div></div>';
+top.forEach((d,i)=>{
+const upc=d.upside!=null?(d.upside>0?"var(--g)":d.upside<0?"var(--r)":"var(--t)"):"var(--t3)";
+html+='<div class="sec-row"><span class="sec-rank" style="color:'+sc(d.score)+'">'+(i+1)+'</span><div><div class="sec-sn">'+d.name+'</div><div class="sec-ss">'+d.ticker+' - '+rd(d.price,2)+' NOK</div></div><div style="text-align:right;font-size:10px;color:'+sc(d.techScore)+'">T:'+d.techScore+'</div><div style="text-align:right;font-size:10px;color:'+sc(d.fundScore)+'">F:'+d.fundScore+'</div><div style="text-align:right;font-size:10px">'+(d.targetPrice?Math.round(d.targetPrice):"-")+'</div><div style="text-align:right;font-size:10px;font-weight:600;color:'+upc+'">'+(d.upside!=null?d.upside+"%":"-")+'</div><div style="text-align:right;font-size:13px;font-weight:700;color:'+sc(d.score)+'">'+d.score+'</div></div>';
+});
+html+='</div>';
+});
+document.getElementById("secView").innerHTML=html;
+}
+
+/* ---- News View ---- */
+let newsSubTab='timeline';
+function buildNewsView(){
+const nv=document.getElementById("newsView");
+const companies={};
+NEWS_DATA.forEach(n=>{if(!companies[n.company])companies[n.company]=0;companies[n.company]++});
+const compCount=Object.keys(companies).length;
+
+let html='<div style="padding:4px 0;margin:14px 0 6px 0;font-size:15px;font-weight:700">Aktuelle nyheter – siste 48 timer</div>';
+html+='<div class="subtabs" style="margin-bottom:12px"><button class="'+(newsSubTab==='timeline'?'active':'')+'" data-newssub="timeline">Tidslinje</button><button class="'+(newsSubTab==='company'?'active':'')+'" data-newssub="company">Per selskap</button></div>';
+
+/* Stats */
+html+='<div class="nw-stats">';
+html+='<div class="nw-stat"><div class="nw-stat-num accent">'+NEWS_DATA.length+'</div><div class="nw-stat-lbl">Nyheter</div></div>';
+html+='<div class="nw-stat"><div class="nw-stat-num green">'+compCount+'</div><div class="nw-stat-lbl">Selskaper</div></div>';
+html+='<div class="nw-stat"><div class="nw-stat-num">'+PORTFOLIO_DATA.length+'</div><div class="nw-stat-lbl">I portefoljen</div></div>';
+html+='<div class="nw-stat"><div class="nw-stat-num">2</div><div class="nw-stat-lbl">Kilder</div></div>';
+html+='</div>';
+
+/* Search */
+html+='<div class="nw-search"><input type="text" id="newsSearch" placeholder="Sok i nyheter (tittel, selskap, ticker)..."></div>';
+
+/* Timeline view */
+html+='<div id="nwTimeline" style="display:'+(newsSubTab==='timeline'?'block':'none')+'">';
+
+/* Filters */
+html+='<div class="nw-filters"><button class="nw-fbtn active" data-nwfilter="all">Alle<span class="cnt"> ('+NEWS_DATA.length+')</span></button>';
+Object.entries(companies).sort((a,b)=>b[1]-a[1]).forEach(([comp,cnt])=>{
+html+='<button class="nw-fbtn" data-nwfilter="'+comp.toLowerCase()+'">'+comp+'<span class="cnt"> ('+cnt+')</span></button>';
+});
+html+='</div>';
+
+/* View toggle */
+html+='<div class="nw-views"><button class="nw-vbtn active" data-nwview="list">Liste</button><button class="nw-vbtn" data-nwview="grid">Rutenett</button></div>';
+
+/* News cards */
+if(NEWS_DATA.length===0){
+html+='<div class="nw-empty"><div style="font-size:36px;margin-bottom:10px">&#128237;</div><div>Ingen nyheter funnet de siste 48 timene.</div><div style="margin-top:8px;font-size:11px">Sjekk internettforbindelsen og proev igjen.</div></div>';
+}else{
+html+='<div class="nw-feed" id="nwFeed">';
+NEWS_DATA.forEach(n=>{
+const srcCls=n.sourceType==='yahoo'?'yahoo':n.sourceType==='newsweb'?'newsweb':'google';
+html+='<div class="nw-card" data-company="'+n.company.toLowerCase()+'" data-search="'+n.title.toLowerCase()+' '+n.company.toLowerCase()+' '+n.ticker.toLowerCase()+'">';
+html+='<div class="nw-card-top"><div class="nw-card-left">';
+html+='<span class="nw-company">'+n.company+'</span>';
+html+='<span class="nw-ticker">'+n.ticker+'</span>';
+html+='</div><div class="nw-card-right">';
+html+='<span class="nw-source '+srcCls+'">'+n.source+'</span>';
+html+='<span class="nw-time" title="'+n.date+'">'+n.time+'</span>';
+html+='</div></div>';
+html+='<a href="'+n.link+'" target="_blank" class="nw-title">'+n.title+'</a>';
+html+='</div>';
+});
+html+='</div>';
+}
+html+='</div>';
+
+/* Company view */
+html+='<div id="nwCompany" style="display:'+(newsSubTab==='company'?'block':'none')+'">';
+const groups={};
+NEWS_DATA.forEach(n=>{if(!groups[n.company])groups[n.company]=[];groups[n.company].push(n)});
+Object.entries(groups).sort((a,b)=>b[1].length-a[1].length).forEach(([comp,items])=>{
+html+='<div class="nw-group"><div class="nw-group-hdr">'+comp+' <span class="cnt">'+items.length+' '+(items.length===1?'nyhet':'nyheter')+'</span></div>';
+items.forEach(n=>{
+const srcCls=n.sourceType==='yahoo'?'yahoo':n.sourceType==='newsweb'?'newsweb':'google';
+html+='<div class="nw-card"><div class="nw-card-top"><div class="nw-card-right">';
+html+='<span class="nw-source '+srcCls+'">'+n.source+'</span>';
+html+='<span class="nw-time" title="'+n.date+'">'+n.time+'</span>';
+html+='</div></div>';
+html+='<a href="'+n.link+'" target="_blank" class="nw-title">'+n.title+'</a>';
+html+='</div>';
+});
+html+='</div>';
+});
+html+='</div>';
+
+html+='<div style="font-size:9px;color:var(--t3);margin-top:12px;text-align:center">Kilder: Yahoo Finance RSS + Google News RSS (e24, DN, Finansavisen, Hegnar, Nettavisen) + Oslo Børs Newsweb. Kun nyheter fra siste '+48+' timer.</div>';
+
+nv.innerHTML=html;
+}
+
+function switchNewsSub(sub,btn){
+newsSubTab=sub;
+const tl=document.getElementById('nwTimeline');
+const co=document.getElementById('nwCompany');
+if(tl)tl.style.display=sub==='timeline'?'block':'none';
+if(co)co.style.display=sub==='company'?'block':'none';
+document.querySelectorAll('#newsView .subtabs button').forEach(b=>b.classList.remove('active'));
+if(btn)btn.classList.add('active');
+}
+
+function filterNw(comp,btn){
+document.querySelectorAll('.nw-fbtn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+document.querySelectorAll('#nwFeed .nw-card').forEach(c=>{
+c.style.display=(comp==='all'||c.dataset.company===comp)?'':'none';
+});
+}
+
+function searchNw(){
+const q=document.getElementById('newsSearch').value.toLowerCase();
+const cards=document.querySelectorAll('#nwFeed .nw-card');
+cards.forEach(c=>{
+c.style.display=(!q||c.dataset.search.includes(q))?'':'none';
+});
+if(q)document.querySelectorAll('.nw-fbtn').forEach(b=>b.classList.remove('active'));
+}
+
+function setNwView(mode,btn){
+const feed=document.getElementById('nwFeed');
+if(feed){if(mode==='grid')feed.classList.add('grid');else feed.classList.remove('grid')}
+document.querySelectorAll('.nw-vbtn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
+/* Init pie */
+drawPie(SEC,PORTFOLIO_DATA,true);
+
+/* ---- Table ---- */
+PORTFOLIO_DATA.forEach(d=>{d.upside=d.targetPrice?Math.round(((d.targetPrice-d.price)/d.price)*100):null});
+OSEBX_DATA.forEach(d=>{d.upside=d.targetPrice?Math.round(((d.targetPrice-d.price)/d.price)*100):null});
+const sc=s=>s>=7?"var(--g)":s>=5?"var(--a)":"var(--r)";
+const sb=s=>s>=7?"var(--gbg)":s>=5?"var(--abg)":"var(--rbg)";
+const rd=(v,d=1)=>v!=null?Number(v.toFixed(d)):"-";
+const ft=d=>{let h='';if(d.pe!=null)h+='P/E: '+rd(d.pe)+'<br>';if(d.evEbitda!=null)h+='EV/EBITDA: '+rd(d.evEbitda)+'<br>';if(d.roe!=null)h+='ROE: '+rd(d.roe)+'%<br>';if(d.fcfYield!=null)h+='FCF Yield: '+rd(d.fcfYield,2)+'%<br>';if(d.debtEquity!=null)h+='Gjeld/EK: '+rd(d.debtEquity)+'%<br>';if(d.profitMargin!=null)h+='Margin: '+rd(d.profitMargin)+'%<br>';if(d.dividendYield!=null)h+='Utbytte: '+rd(d.dividendYield,2)+'%<br>';if(d.revenueGrowth!=null)h+='Omsetn.vekst: '+rd(d.revenueGrowth)+'%';return h||'Ingen data'};
+const tt=d=>{let h='';if(d.rsi!=null)h+='RSI(14): '+Math.round(d.rsi)+(d.rsi<30?' OK':d.rsi>70?' Hoyt':' Noytral')+'<br>';if(d.ma50!=null)h+='MA50: '+rd(d.ma50,2)+(d.price>d.ma50?' Over':' Under')+'<br>';if(d.ma200!=null)h+='MA200: '+rd(d.ma200,2)+(d.price>d.ma200?' Over':' Under')+'<br>';if(d.ma50!=null&&d.ma200!=null)h+='Gyllent kryss: '+(d.ma50>d.ma200?'Ja':'Nei')+'<br>';if(d.macd!=null)h+='MACD: '+rd(d.macd,2)+(d.macd>0?' Positiv':' Negativ')+'<br>';if(d.obvTrend!=null)h+='OBV-trend: '+rd(d.obvTrend,3)+(d.obvTrend>=1.05?' Kjopspress':(d.obvTrend<=0.95?' Salgspress':' Noytral'))+'<br>';if(d.volumeTrend!=null)h+='Volum-trend: '+rd(d.volumeTrend)+'%'+(d.volumeTrend>15?' Okende':(d.volumeTrend<-15?' Synkende':' Stabil'))+'<br>';if(d.bbPctB!=null)h+='Bollinger %B: '+rd(d.bbPctB,2)+(d.bbPctB>0.8?' Overstr.':(d.bbPctB<0.2?' Understr.':' Normal'))+'<br>';if(d.atrPct!=null)h+='ATR%: '+rd(d.atrPct,2)+'%'+(d.atrPct<2.5?' Lav vol.':(d.atrPct>4?' Hoy vol.':' Normal'))+'<br>';if(d.return3m!=null)h+='3m avk: '+rd(d.return3m)+'%<br>';if(d.return12m!=null)h+='12m avk: '+rd(d.return12m)+'%';return h||'Ingen data'};
+const bt=d=>{if(!d.brokerTargets||d.brokerTargets.length===0)return d.analystCount?d.analystCount+' analytikere (Yahoo)'+(d.recMean?' snitt: '+d.recMean+'/5':''):'Ingen data';let h='<b>Meglerhus-kursmal (BorsXtra)</b><br>Snitt: '+Math.round(d.targetPrice)+' NOK<br>---<br>';d.brokerTargets.forEach(b=>{const rc=b.rec.includes('Kj')?' color:var(--g)':b.rec.includes('Selg')?' color:var(--r)':' color:var(--a)';h+='<span style="'+rc+'">'+b.broker+': '+b.target+' ('+b.rec+')</span> <span style="color:var(--t3);font-size:8px">'+b.date.slice(5)+'</span><br>'});return h};
+let cs="score";
+/* Innsideindikator-badge */
+function insiderBadge(ticker){
+  const t=ticker.replace('.ol','').replace('.OL','').toUpperCase();
+  const d=INSIDER_MAP[t];
+  if(!d||d.buy+d.sell===0)return '<div style="text-align:center;color:var(--t3);font-size:11px">–</div>';
+  const net=d.buy-d.sell;
+  const bg=net>0?'var(--gbg)':net<0?'var(--rbg)':'var(--abg)';
+  const col=net>0?'var(--g)':net<0?'var(--r)':'var(--a)';
+  const icon=net>0?'🟢':net<0?'🔴':'⚪';
+  const tip='Innside siste 12 mnd:<br>'+d.buy+' kjøp · '+d.sell+' salg';
+  return '<div class="tip" style="text-align:center"><span style="font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px;background:'+bg+';color:'+col+'">'+icon+' '+(net>0?'+'+net:net)+'</span><div class="tt" style="min-width:140px">'+tip+'</div></div>';
+}
+function rr(){
+const s=[...D].sort((a,b)=>{if(cs==="score")return b.score-a.score;if(cs==="name")return a.name.localeCompare(b.name);if(cs==="upside")return(b.upside||0)-(a.upside||0);if(cs==="fundScore")return b.fundScore-a.fundScore;if(cs==="techScore")return b.techScore-a.techScore;if(cs==="combined"){const byScore=[...D].sort((x,y)=>y.score-x.score);const byUp=[...D].sort((x,y)=>(y.upside||0)-(x.upside||0));const rS={};byScore.forEach((x,i)=>rS[x.ticker]=i+1);const rU={};byUp.forEach((x,i)=>rU[x.ticker]=i+1);return(rS[a.ticker]+rU[a.ticker])-(rS[b.ticker]+rU[b.ticker])}return 0});
+if(s.length===0){document.getElementById("tp").innerHTML="";document.getElementById("tb").innerHTML='<div style="padding:40px;text-align:center;color:var(--t3);font-size:14px">Ingen kursdata — dobbeltklikk på <b>run_screener.bat</b> i Screener-mappen for å hente ferske kurser.</div>';return;}
+const t=s[0];
+document.getElementById("tp").innerHTML='<div class="top"><div class="tops">'+t.score+'</div><div class="topi"><div class="lb">Anbefalt innskudd</div><div class="nm">'+t.name+'</div><div class="mt">'+t.sector+' - '+t.price+' NOK | T:'+t.techScore+' F:'+t.fundScore+(t.targetPrice?' - Mal '+Math.round(t.targetPrice):'')+(t.upside!=null&&t.upside>0?' (+'+t.upside+'%)':'')+'</div></div><div class="topb">Manedens kjop</div></div>';
+let h="";s.forEach((d,i)=>{const rc=d.rsi!=null?(d.rsi<30?"var(--g)":d.rsi>70?"var(--r)":"var(--t)"):"var(--t3)";const sgb=d.signal==="Kjop"?"var(--gbg)":d.signal==="Salg"?"var(--rbg)":"var(--abg)";const sgc=d.signal==="Kjop"?"var(--g)":d.signal==="Salg"?"var(--r)":"var(--a)";const upc=d.upside!=null?(d.upside>0?"var(--g)":d.upside<0?"var(--r)":"var(--t)"):"var(--t3)";const ab=d.analystSignal&&d.analystSignal.includes("Kjop")?"var(--gbg)":d.analystSignal&&d.analystSignal.includes("Salg")?"var(--rbg)":"var(--abg)";const ac=d.analystSignal&&d.analystSignal.includes("Kjop")?"var(--g)":d.analystSignal&&d.analystSignal.includes("Salg")?"var(--r)":"var(--a)";
+h+='<div class="tr" data-ticker="'+d.ticker.toLowerCase()+'" data-name="'+d.name.toLowerCase()+'"><span style="font-size:11px;font-weight:600;color:'+(i<3?sc(d.score):"var(--t3)")+'">'+String(i+1)+'</span><div style="min-width:0"><div class="sn">'+d.name+'</div><div class="ss">'+d.sector+' - '+d.ticker+'</div></div><div style="text-align:right;font-size:11px">'+rd(d.price,2)+'</div><div style="text-align:right;font-size:11px;color:'+rc+'">'+(d.rsi!=null?Math.round(d.rsi):"-")+'</div><div style="text-align:center"><span style="font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;background:'+sgb+';color:'+sgc+'">'+d.signal+'</span></div><div class="tip" style="text-align:center"><span style="font-size:8px;font-weight:600;padding:2px 4px;border-radius:4px;background:'+ab+';color:'+ac+'">'+(d.analystSignal||"-")+'</span><div class="tt">'+bt(d)+'</div></div>'+insiderBadge(d.ticker)+'<div class="tip" style="text-align:right;font-size:11px;color:'+sc(d.techScore)+'">'+d.techScore+'<div class="tt" style="min-width:160px">'+tt(d)+'</div></div><div class="tip" style="text-align:right;font-size:11px;color:'+sc(d.fundScore)+'">'+d.fundScore+'<div class="tt">'+ft(d)+'</div></div><div class="tip" style="text-align:right;font-size:11px">'+(d.targetPrice?Math.round(d.targetPrice):"-")+(d.brokerTargets&&d.brokerTargets.length>0?'<span style="font-size:7px;color:var(--t3);vertical-align:super">'+d.brokerTargets.length+'</span>':'')+'<div class="tt" style="min-width:200px">'+bt(d)+'</div></div><div style="text-align:right;font-size:11px;font-weight:600;color:'+upc+'">'+(d.upside!=null?d.upside+'%':"-")+'</div><div style="text-align:right;font-size:14px;font-weight:700;color:'+sc(d.score)+'">'+d.score+'</div></div>'});
+document.getElementById("tb").innerHTML=h}
+function ds(k,b){cs=k;document.querySelectorAll(".sorts button").forEach(x=>x.classList.remove("on"));b.classList.add("on");rr()}
+function searchStock(q){
+const rows=document.querySelectorAll("#tb .tr");
+const res=document.getElementById("searchResult");
+rows.forEach(r=>r.style.outline="none");
+if(!q.trim()){res.textContent="";return}
+const ql=q.toLowerCase();
+let found=null;
+rows.forEach(r=>{
+const nm=r.getAttribute("data-name")||"";
+const tk=r.getAttribute("data-ticker")||"";
+if(!found&&(nm.includes(ql)||tk.includes(ql)))found=r;
+});
+if(found){found.style.outline="2px solid var(--g)";found.scrollIntoView({behavior:"smooth",block:"center"});res.textContent="";}
+else{res.textContent="Ingen treff";}
+}
+
+/* ── Innsidehandler accordion JS ── */
+(function(){
+const openState={};
+window.insToggle=function(ticker){
+  openState[ticker]=!openState[ticker];
+  const head=document.querySelector('[data-iticker="'+ticker+'"] .ins-head');
+  const body=document.querySelector('[data-iticker="'+ticker+'"] .ins-body');
+  if(head)head.classList.toggle('open',openState[ticker]);
+  if(body)body.classList.toggle('open',openState[ticker]);
+};
+window.insExpandAll=function(){
+  document.querySelectorAll('#ins-accordion .ins-head').forEach(h=>h.classList.add('open'));
+  document.querySelectorAll('#ins-accordion .ins-body').forEach(b=>b.classList.add('open'));
+};
+window.insCollapseAll=function(){
+  document.querySelectorAll('#ins-accordion .ins-head').forEach(h=>h.classList.remove('open'));
+  document.querySelectorAll('#ins-accordion .ins-body').forEach(b=>b.classList.remove('open'));
+};
+window.insSetTab=function(el,tab){
+  document.querySelectorAll('.ins-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#ins-accordion .ins-item').forEach(item=>{
+    const hasBuy=item.querySelector('.ins-buy-row');
+    const hasSell=item.querySelector('.ins-sell-row');
+    if(tab==='all'){
+      item.classList.remove('ins-hidden');
+      item.querySelectorAll('tr').forEach(r=>r.style.display='');
+    }else if(tab==='buy'){
+      item.classList.toggle('ins-hidden',!hasBuy);
+      item.querySelectorAll('tr.ins-sell-row').forEach(r=>r.style.display='none');
+      item.querySelectorAll('tr.ins-buy-row').forEach(r=>r.style.display='');
+    }else{
+      item.classList.toggle('ins-hidden',!hasSell);
+      item.querySelectorAll('tr.ins-buy-row').forEach(r=>r.style.display='none');
+      item.querySelectorAll('tr.ins-sell-row').forEach(r=>r.style.display='');
+    }
+  });
+};
+})();
+rr();
+/* Tooltip flip: show below when near top of viewport */
+document.addEventListener('mouseover',function(e){
+const tip=e.target.closest('.tip');
+if(!tip)return;
+const tt=tip.querySelector('.tt');
+if(!tt)return;
+const rect=tip.getBoundingClientRect();
+if(rect.top<320){tt.classList.add('flip')}else{tt.classList.remove('flip')}
+});
+
+/* === Event Delegation === */
+document.addEventListener('click',function(e){
+const b=e.target.closest('button')||e.target.closest('[data-action]');
+if(!b)return;
+
+/* Main tabs */
+if(b.dataset.tab){switchTab(b.dataset.tab,b);return}
+
+/* Sort buttons */
+if(b.dataset.sort){ds(b.dataset.sort,b);return}
+
+/* Oslo Bors subtabs */
+if(b.dataset.osub){switchOsebxSub(b.dataset.osub,b);return}
+
+/* Favorites/Consensus subtabs */
+if(b.dataset.favsub){
+if(b.dataset.favsub==='fav'){switchTab('favorites',document.querySelector('[data-tab="favorites"]'));document.querySelector('[data-tab="favorites"]').classList.add('active')}
+else{switchTab('consensus',document.querySelector('[data-tab="favorites"]'));document.querySelector('[data-tab="favorites"]').classList.add('active')}
+return;
+}
+
+/* News subtabs */
+if(b.dataset.newssub){switchNewsSub(b.dataset.newssub,b);return}
+
+/* News filter */
+if(b.dataset.nwfilter){filterNw(b.dataset.nwfilter,b);return}
+
+/* News view toggle */
+if(b.dataset.nwview){setNwView(b.dataset.nwview,b);return}
+
+/* Toggle actions */
+if(b.dataset.action==='toggleFavArchive'){toggleFavArchive();return}
+if(b.dataset.action==='toggleSectorArchive'){toggleSectorArchive();return}
+if(b.dataset.action==='toggleConsensusHistory'){toggleConsensusHistory();return}
+});
+
+/* Input listeners */
+document.addEventListener('input',function(e){
+if(e.target.id==='stockSearch')searchStock(e.target.value);
+if(e.target.id==='newsSearch')searchNw();
+});
+</script>
+</body>
+</html>
